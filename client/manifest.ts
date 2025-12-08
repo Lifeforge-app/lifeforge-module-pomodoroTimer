@@ -5,7 +5,9 @@ export default {
   name: 'Pomodoro Timer',
   icon: 'tabler:clock-bolt',
   routes: {
-    '/': lazy(() => import('@'))
+    '/': lazy(() => import('@')),
+    '/:sessionId': lazy(() => import('@/pages/TimePage'))
   },
-  category: 'Productivity'
+  category: 'Productivity',
+  clearQueryOnUnmount: false
 } satisfies ModuleConfig
