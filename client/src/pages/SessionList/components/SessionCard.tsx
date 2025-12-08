@@ -74,7 +74,7 @@ function SessionCard({ session }: { session: Session }) {
       className="flex-between gap-8"
       onClick={handleClick}
     >
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
         <div
           className="rounded-lg p-3"
           style={{
@@ -89,25 +89,26 @@ function SessionCard({ session }: { session: Session }) {
           <h3 className="flex items-center gap-2 text-lg font-medium">
             {session.name}
             <TagChip
-              className="px-1.5! py-0.5! text-xs!"
+              className="hidden px-1.5! py-0.5! text-xs! sm:flex"
               color={STATUS_STYLES[session.status].color}
               icon={STATUS_STYLES[session.status].icon}
               iconClassName="size-3.5!"
               label={t(`statuses.${session.status}`)}
             />
           </h3>
-          <div className="text-bg-500 mt-1 flex items-center gap-4 text-sm">
+          <div className="text-bg-500 mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm sm:mt-1">
             <div className="text-bg-500 flex items-center gap-1.5">
-              <Icon className="size-4" icon="tabler:clock" />
+              <Icon className="size-4 shrink-0" icon="tabler:clock" />
               <span>
-                {session.work_duration} / {session.short_break_duration} /{' '}
-                {session.long_break_duration} /{' '}
-                {session.session_until_long_break}
+                {t('timer.sessionConfig', {
+                  durations: `${session.work_duration} / ${session.short_break_duration} / ${session.long_break_duration}`,
+                  perCycle: session.session_until_long_break
+                })}
               </span>
             </div>
             {session.status !== 'new' && (
               <div className="text-bg-500 flex items-center gap-1.5">
-                <Icon className="size-4" icon="tabler:flag-check" />
+                <Icon className="size-4 shrink-0" icon="tabler:flag-check" />
                 <span>
                   {t('timer.pomodoroDone', {
                     count: session.pomodoro_count,
@@ -119,13 +120,17 @@ function SessionCard({ session }: { session: Session }) {
               </div>
             )}
             <div className="text-bg-500 flex items-center gap-1.5">
-              <Icon className="size-4" icon="tabler:calendar" />
+              <Icon className="size-4 shrink-0" icon="tabler:calendar" />
               <span>{dayjs(session.created).format('DD MMM YYYY')}</span>
             </div>
           </div>
         </div>
       </div>
-      <ContextMenu>
+      <ContextMenu
+        classNames={{
+          wrapper: 'top-4 right-4 sm:static absolute'
+        }}
+      >
         <ContextMenuItem
           icon="tabler:pencil"
           label="edit"
