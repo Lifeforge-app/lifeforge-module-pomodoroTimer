@@ -229,11 +229,36 @@ const remove = forgeController
     pb.delete.collection('pomodoro_timer__sessions').id(id).execute()
   )
 
+const listSubSessions = forgeController
+  .query()
+  .description({
+    en: 'List sub-sessions for a pomodoro session',
+    ms: 'Senarai sub-sesi untuk sesi pomodoro',
+    'zh-CN': '列出番茄钟会话的子会话',
+    'zh-TW': '列出番茄鐘會話的子會話'
+  })
+  .input({
+    query: z.object({
+      sessionId: z.string()
+    })
+  })
+  .existenceCheck('query', {
+    sessionId: 'pomodoro_timer__sessions'
+  })
+  .callback(async ({ query: { sessionId }, pb }) => {
+    return await pb.getFullList
+      .collection('pomodoro_timer__sub_sessions')
+      .filter([{ field: 'session', operator: '=', value: sessionId }])
+      .sort(['created'])
+      .execute()
+  })
+
 export default forgeRouter({
   getById,
   list,
   create,
   update,
   changeStatus,
-  remove
+  remove,
+  listSubSessions
 })

@@ -1,6 +1,7 @@
 import type { Session } from '@'
 import STATUS_STYLES from '@/constants/status_styles'
 import ModifySessionModal from '@/modal/ModifySessionModal'
+import SessionEndedModal from '@/modal/SessionEndedModal'
 import { useActiveSession } from '@/providers/ActiveSessionProvider'
 import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
@@ -56,12 +57,22 @@ function SessionCard({ session }: { session: Session }) {
     })
   }
 
+  function handleClick() {
+    if (session.status === 'completed') {
+      open(SessionEndedModal, {
+        sessionId: session.id
+      })
+    } else {
+      setActiveSession(session.id)
+    }
+  }
+
   return (
     <Card
       key={session.id}
       isInteractive
       className="flex-between gap-8"
-      onClick={() => setActiveSession(session.id)}
+      onClick={handleClick}
     >
       <div className="flex items-center gap-4">
         <div

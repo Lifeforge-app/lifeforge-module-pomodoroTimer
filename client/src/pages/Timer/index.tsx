@@ -1,8 +1,10 @@
+import SessionEndedModal from '@/modal/SessionEndedModal'
 import { useActiveSession } from '@/providers/ActiveSessionProvider'
 import { useCurrentSession } from '@/providers/CurrentSessionProvider'
+import { useModalStore } from 'lifeforge-ui'
+import { useEffect, useRef } from 'react'
 
 import NewSessionScreen from '../NewSessionScreen'
-import SessionEndedScreen from '../SessionEndedScreen'
 import ControlButtons from './components/ControlButtons'
 import Header from './components/Header'
 import ProgressBars from './components/ProgressBars'
@@ -13,6 +15,34 @@ export default function Timer() {
   const currentSession = useCurrentSession()
 
   const { setActiveSession } = useActiveSession()
+
+  const open = useModalStore(state => state.open)
+
+  const hasOpenedModalRef = useRef(false)
+
+  // When session becomes completed, open modal and clear active session
+  useEffect(() => {
+    if (
+      currentSession &&
+      currentSession.session.status === 'completed' &&
+      !hasOpenedModalRef.current
+    ) {
+      hasOpenedModalRef.current = true
+
+      open(SessionEndedModal, {
+        sessionId: currentSession.session.id
+      })
+
+      setActiveSession(null)
+    }
+  }, [currentSession, open, setActiveSession])
+
+  // Reset the ref when session changes
+  useEffect(() => {
+    if (!currentSession) {
+      hasOpenedModalRef.current = false
+    }
+  }, [currentSession])
 
   if (!currentSession) {
     return <></>
@@ -27,8 +57,9 @@ export default function Timer() {
     )
   }
 
+  // Completed sessions are handled by the useEffect above
   if (currentSession.session.status === 'completed') {
-    return <SessionEndedScreen onClose={() => setActiveSession(null)} />
+    return <></>
   }
 
   return (

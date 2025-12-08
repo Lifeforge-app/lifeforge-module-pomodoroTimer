@@ -18,7 +18,7 @@ function StatsCard({
 
   return (
     <div className="mt-4 flex w-full min-w-0 flex-wrap items-center gap-4 text-left">
-      <Card className="flex w-full flex-1 items-center gap-3">
+      <Card className="component-bg-lighter flex w-full flex-1 items-center gap-3">
         <div
           className="rounded-lg p-3"
           style={{ backgroundColor: sessionStyles.work.color + '20' }}
@@ -36,7 +36,7 @@ function StatsCard({
           </div>
         </div>
       </Card>
-      <Card className="flex w-full flex-1 shrink-0 items-center gap-3">
+      <Card className="component-bg-lighter flex w-full flex-1 shrink-0 items-center gap-3">
         <div
           className="rounded-lg p-3"
           style={{ backgroundColor: sessionStyles.work.color + '20' }}
@@ -54,7 +54,7 @@ function StatsCard({
           <div className="text-bg-500 font-medium">{t('timer.focusTime')}</div>
         </div>
       </Card>
-      <Card className="flex w-full flex-1 shrink-0 items-center gap-3">
+      <Card className="component-bg-lighter flex w-full flex-1 shrink-0 items-center gap-3">
         <div
           className="rounded-lg p-3"
           style={{ backgroundColor: sessionStyles.short_break.color + '20' }}
