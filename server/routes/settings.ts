@@ -27,7 +27,10 @@ const update = forgeController
   .input({
     body: z.object({
       auto_start_break: z.boolean().optional(),
-      auto_start_work: z.boolean().optional()
+      auto_start_work: z.boolean().optional(),
+      work_color: z.string().optional(),
+      short_break_color: z.string().optional(),
+      long_break_color: z.string().optional()
     })
   })
   .media({
