@@ -2,7 +2,6 @@ import { type PomodoroSettings } from '@/providers/PomodoroSettingsProvider'
 import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { FormModal, defineForm } from 'lifeforge-ui'
-import { useTranslation } from 'react-i18next'
 import { type InferInput, getFormFileFieldInitialData } from 'shared'
 
 export default function SettingsModal({
@@ -14,15 +13,13 @@ export default function SettingsModal({
     initialData: PomodoroSettings
   }
 }) {
-  const { t } = useTranslation('apps.pomodoroTimer')
-
   const queryClient = useQueryClient()
 
   const mutation = useMutation(
     forgeAPI.pomodoroTimer.settings.update.mutationOptions({
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: forgeAPI.pomodoroTimer.settings.get.queryOptions().queryKey
+          queryKey: forgeAPI.pomodoroTimer.settings.get.key
         })
         onClose()
       }
