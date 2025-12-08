@@ -1,6 +1,7 @@
 import type { Session } from '@'
 import STATUS_STYLES from '@/constants/status_styles'
 import ModifySessionModal from '@/modal/ModifySessionModal'
+import { useActiveSession } from '@/providers/ActiveSessionProvider'
 import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -15,7 +16,7 @@ import {
 } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import { anyColorToHex, useNavigate } from 'shared'
+import { anyColorToHex } from 'shared'
 
 function SessionCard({ session }: { session: Session }) {
   const qc = useQueryClient()
@@ -24,7 +25,7 @@ function SessionCard({ session }: { session: Session }) {
 
   const open = useModalStore(state => state.open)
 
-  const navigate = useNavigate()
+  const { setActiveSession } = useActiveSession()
 
   const deleteMutation = useMutation(
     forgeAPI.pomodoroTimer.sessions.remove
@@ -60,7 +61,7 @@ function SessionCard({ session }: { session: Session }) {
       key={session.id}
       isInteractive
       className="flex-between gap-8"
-      onClick={() => navigate(`/pomodoro-timer/${session.id}`)}
+      onClick={() => setActiveSession(session.id)}
     >
       <div className="flex items-center gap-4">
         <div
@@ -80,7 +81,7 @@ function SessionCard({ session }: { session: Session }) {
               className="px-1.5! py-0.5! text-xs!"
               color={STATUS_STYLES[session.status].color}
               icon={STATUS_STYLES[session.status].icon}
-              iconClassName="size-3!"
+              iconClassName="size-3.5!"
               label={t(`statuses.${session.status}`)}
             />
           </h3>

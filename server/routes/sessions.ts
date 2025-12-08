@@ -35,28 +35,6 @@ const getById = forgeController
     }
   })
 
-const validateId = forgeController
-  .query()
-  .description({
-    en: 'Validate pomodoro session ID',
-    ms: 'Sahkan ID sesi pomodoro',
-    'zh-CN': '验证番茄钟会话ID',
-    'zh-TW': '驗證番茄鐘會話ID'
-  })
-  .input({
-    query: z.object({
-      id: z.string()
-    })
-  })
-  .callback(({ query: { id }, pb }) =>
-    pb.getOne
-      .collection('pomodoro_timer__sessions')
-      .id(id)
-      .execute()
-      .then(() => true)
-      .catch(() => false)
-  )
-
 const list = forgeController
   .query()
   .description({
@@ -158,44 +136,68 @@ const changeStatus = forgeController
     }),
     body: z.object({
       status: z.enum(['new', 'active', 'completed']),
-      subSessionId: z.string().optional(),
-      subSessionEndedTimestamp: z.string().optional(),
-      subSessionDurationElapsed: z.number().optional()
+      // For batch completion - array of subsession data
+      subSessions: z
+        .array(
+          z.object({
+            type: z.enum(['work', 'short_break', 'long_break']),
+            duration_elapsed: z.number(),
+            ended: z.string(),
+            is_completed: z.boolean()
+          })
+        )
+        .optional(),
+      pomodoroCount: z.number().optional()
     })
   })
   .existenceCheck('query', {
     id: 'pomodoro_timer__sessions'
   })
-  .existenceCheck('body', {
-    subSessionId: '[pomodoro_timer__sub_sessions]'
-  })
   .callback(
     async ({
       query: { id },
-      body: {
-        status,
-        subSessionId,
-        subSessionEndedTimestamp,
-        subSessionDurationElapsed
-      },
+      body: { status, subSessions, pomodoroCount },
       pb
     }) => {
-      await pb.update
-        .collection('pomodoro_timer__sessions')
-        .id(id)
-        .data({
-          status
-        })
-        .execute()
+      // If completing with subsession data, create all subsessions
+      if (status === 'completed' && subSessions && subSessions.length > 0) {
+        // Create all subsession records
+        for (const subSession of subSessions) {
+          await pb.create
+            .collection('pomodoro_timer__sub_sessions')
+            .data({
+              session: id,
+              type: subSession.type,
+              duration_elapsed: subSession.duration_elapsed,
+              ended: subSession.ended,
+              is_completed: subSession.is_completed
+            })
+            .execute()
+        }
 
-      if (subSessionId) {
+        // Calculate total time elapsed
+        const totalTimeElapsed = subSessions.reduce(
+          (sum, s) => sum + s.duration_elapsed,
+          0
+        )
+
+        // Update session with final stats
         await pb.update
-          .collection('pomodoro_timer__sub_sessions')
-          .id(subSessionId)
+          .collection('pomodoro_timer__sessions')
+          .id(id)
           .data({
-            is_completed: true,
-            duration_elapsed: subSessionDurationElapsed,
-            ended: subSessionEndedTimestamp
+            status,
+            total_time_elapsed: totalTimeElapsed,
+            pomodoro_count: pomodoroCount ?? 0
+          })
+          .execute()
+      } else {
+        // Simple status change
+        await pb.update
+          .collection('pomodoro_timer__sessions')
+          .id(id)
+          .data({
+            status
           })
           .execute()
       }
@@ -229,7 +231,6 @@ const remove = forgeController
 
 export default forgeRouter({
   getById,
-  validateId,
   list,
   create,
   update,

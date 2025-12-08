@@ -12,10 +12,9 @@ const DEFAULT_SETTINGS: Omit<
 > & {
   notification_sound: File
 } = {
-  work_duration: 25,
-  short_break_duration: 5,
-  long_break_duration: 15,
-  session_until_long_break: 4,
+  work_color: '#fb2c36',
+  short_break_color: '#9ae600',
+  long_break_color: '#00d3f2',
   auto_start_break: false,
   auto_start_work: false,
   notification_sound: new File(

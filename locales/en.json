@@ -33,7 +33,10 @@
     "autoStartBreaksDesc": "Automatically start break timers after work sessions",
     "autoStartWork": "Auto-start Work",
     "autoStartWorkDesc": "Automatically start work timers after breaks",
-    "notificationSound": "Notification Sound"
+    "notificationSound": "Notification Sound",
+    "workColor": "Work Color",
+    "shortBreakColor": "Short Break Color",
+    "longBreakColor": "Long Break Color"
   },
   "buttons": {
     "startPomodoro": "Start Pomodoro",
@@ -42,7 +45,8 @@
     "resume": "Resume",
     "reset": "Reset",
     "skip": "Skip Break",
-    "endSession": "End Session"
+    "endSession": "End Session",
+    "settings": "Settings"
   },
   "statuses": {
     "new": "New",
@@ -64,6 +68,7 @@
     "pomodoroDone": "{{count}} pomodoros done / {{total}} mins",
     "sessionConfig": "{{durations}} mins | {{perCycle}} pomodoros per cycle",
     "focusTime": "Focus Time",
+    "breakTime": "Break Time",
     "breakingTime": "Breaking Time",
     "messages": {
       "readyToFocus": "Ready to focus? Let's get started!",

@@ -33,7 +33,10 @@
     "autoStartBreaksDesc": "Mulakan pemasa rehat secara automatik selepas sesi kerja",
     "autoStartWork": "Auto-mula Kerja",
     "autoStartWorkDesc": "Mulakan pemasa kerja secara automatik selepas rehat",
-    "notificationSound": "Bunyi Notifikasi"
+    "notificationSound": "Bunyi Notifikasi",
+    "workColor": "Warna Kerja",
+    "shortBreakColor": "Warna Rehat Pendek",
+    "longBreakColor": "Warna Rehat Panjang"
   },
   "statuses": {
     "new": "Baru",
@@ -47,7 +50,8 @@
     "resume": "Sambung",
     "reset": "Set Semula",
     "skip": "Langkau Rehat",
-    "endSession": "Tamatkan Sesi"
+    "endSession": "Tamatkan Sesi",
+    "settings": "Tetapan"
   },
   "timer": {
     "work": "Kerja",
@@ -64,6 +68,7 @@
     "pomodoroDone": "{{count}} pomodoro selesai / {{total}} minit",
     "sessionConfig": "{{durations}} min | {{perCycle}} pomodoro setiap kitaran",
     "focusTime": "Masa Fokus",
+    "breakTime": "Masa Rehat",
     "breakingTime": "Masa Rehat",
     "messages": {
       "readyToFocus": "Sedia untuk fokus? Jom mula!",

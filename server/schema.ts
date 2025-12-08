@@ -6,6 +6,9 @@ const pomodoroTimerSchemas = {
       auto_start_break: z.boolean(),
       auto_start_work: z.boolean(),
       notification_sound: z.string(),
+      work_color: z.string(),
+      short_break_color: z.string(),
+      long_break_color: z.string(),
       created: z.string(),
       updated: z.string()
     }),
@@ -64,6 +67,48 @@ const pomodoroTimerSchemas = {
           system: false,
           thumbs: [],
           type: 'file'
+        },
+        {
+          autogeneratePattern: '',
+          hidden: false,
+          id: 'text1319973830',
+          max: 0,
+          min: 0,
+          name: 'work_color',
+          pattern: '',
+          presentable: false,
+          primaryKey: false,
+          required: false,
+          system: false,
+          type: 'text'
+        },
+        {
+          autogeneratePattern: '',
+          hidden: false,
+          id: 'text3106559776',
+          max: 0,
+          min: 0,
+          name: 'short_break_color',
+          pattern: '',
+          presentable: false,
+          primaryKey: false,
+          required: false,
+          system: false,
+          type: 'text'
+        },
+        {
+          autogeneratePattern: '',
+          hidden: false,
+          id: 'text988500973',
+          max: 0,
+          min: 0,
+          name: 'long_break_color',
+          pattern: '',
+          presentable: false,
+          primaryKey: false,
+          required: false,
+          system: false,
+          type: 'text'
         },
         {
           hidden: false,

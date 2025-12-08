@@ -30,10 +30,13 @@
     "minutes": "分钟",
     "automation": "自动化",
     "autoStartBreaks": "自动开始休息",
-    "autoStartBreaksDesc": "工作会话后自动开始休息计时器",
+    "autoStartBreaksDesc": "工作结束后自动开始休息计时器",
     "autoStartWork": "自动开始工作",
-    "autoStartWorkDesc": "休息后自动开始工作计时器",
-    "notificationSound": "通知声音"
+    "autoStartWorkDesc": "休息结束后自动开始工作计时器",
+    "notificationSound": "通知声音",
+    "workColor": "工作颜色",
+    "shortBreakColor": "短休息颜色",
+    "longBreakColor": "长休息颜色"
   },
   "statuses": {
     "new": "新建",
@@ -47,7 +50,8 @@
     "resume": "继续",
     "reset": "重置",
     "skip": "跳过休息",
-    "endSession": "结束会话"
+    "endSession": "结束会话",
+    "settings": "设置"
   },
   "timer": {
     "work": "工作",
@@ -64,6 +68,7 @@
     "pomodoroCompleted": "番茄钟已完成",
     "todayPomodoros": "今日番茄钟",
     "focusTime": "专注时间",
+    "breakTime": "休息时间",
     "breakingTime": "休息时间",
     "messages": {
       "readyToFocus": "准备好专注了吗？开始吧！",
