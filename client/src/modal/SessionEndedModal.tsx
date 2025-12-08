@@ -89,10 +89,19 @@ function SessionEndedModal({
           <>
             <ModalHeader
               icon="tabler:history"
-              title={session.name}
+              title={
+                <div>
+                  <div>{session.name}</div>
+                  <p className="text-bg-500 mt-0.5 text-sm">
+                    {t('timer.sessionConfig', {
+                      durations: `${session.work_duration} / ${session.short_break_duration} / ${session.long_break_duration}`,
+                      perCycle: session.session_until_long_break
+                    })}
+                  </p>
+                </div>
+              }
               onClose={onClose}
             />
-
             {/* Summary stats using StatsCard */}
             <StatsCard breakTime={totalBreakTime} session={session} />
             <div className="mt-6 flex h-full flex-1 flex-col">
