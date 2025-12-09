@@ -332,7 +332,7 @@ function PomodoroProvider({ children }: { children: React.ReactNode }) {
         }
 
         setState(prev => ({ ...prev, timeLeft: prev.timeLeft - 1 }))
-      }, 10)
+      }, 1000)
     }
 
     return () => {
