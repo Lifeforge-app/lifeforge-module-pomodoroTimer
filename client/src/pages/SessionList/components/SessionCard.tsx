@@ -4,6 +4,7 @@ import ModifySessionModal from '@/modal/ModifySessionModal'
 import SessionEndedModal from '@/modal/SessionEndedModal'
 import { useActiveSession } from '@/providers/ActiveSessionProvider'
 import forgeAPI from '@/utils/forgeAPI'
+import formatTime from '@/utils/formatTime'
 import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
@@ -112,9 +113,7 @@ function SessionCard({ session }: { session: Session }) {
                 <span>
                   {t('timer.pomodoroDone', {
                     count: session.pomodoro_count,
-                    total: dayjs
-                      .duration(session.total_time_elapsed, 'seconds')
-                      .format('mm[ mins]')
+                    total: formatTime(session.total_time_elapsed)
                   })}
                 </span>
               </div>

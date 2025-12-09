@@ -4,11 +4,6 @@
   "items": {
     "session": "会话"
   },
-  "tabs": {
-    "timer": "计时器",
-    "statistics": "统计",
-    "settings": "设置"
-  },
   "modals": {
     "session": {
       "create": "创建会话",
@@ -64,7 +59,7 @@
     "sessionConfig": "{{durations}} 分钟 | 每个循环 {{perCycle}} 个番茄钟",
     "sessionCompletedDesc": "干得好！您已完成 {{name}} 会话！",
     "readyPrompt": "准备好专注了吗？点击下面的按钮开始吧！",
-    "pomodoroDone": "已完成 {{count}} 个番茄钟 / {{total}} 分钟",
+    "pomodoroDone": "已完成 {{count}} 个番茄钟 / {{total}}",
     "pomodoroCompleted": "番茄钟已完成",
     "todayPomodoros": "今日番茄钟",
     "focusTime": "专注时间",

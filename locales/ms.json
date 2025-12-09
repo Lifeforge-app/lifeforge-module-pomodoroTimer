@@ -4,11 +4,6 @@
   "items": {
     "session": "Sesi"
   },
-  "tabs": {
-    "timer": "Pemasa",
-    "statistics": "Statistik",
-    "settings": "Tetapan"
-  },
   "modals": {
     "session": {
       "create": "Cipta Sesi",
@@ -65,7 +60,7 @@
     "sessionCompleted": "Sesi selesai",
     "pomodoroCompleted": "Pomodoro Selesai",
     "todayPomodoros": "Pomodoro Hari Ini",
-    "pomodoroDone": "{{count}} pomodoro selesai / {{total}} minit",
+    "pomodoroDone": "{{count}} pomodoro selesai / {{total}}",
     "sessionConfig": "{{durations}} min | {{perCycle}} pomodoro setiap kitaran",
     "focusTime": "Masa Fokus",
     "breakTime": "Masa Rehat",

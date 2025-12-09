@@ -4,6 +4,7 @@ import formatTime from '@/utils/formatTime'
 import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
 import { Card, ModalHeader, Scrollbar, WithQuery } from 'lifeforge-ui'
+import _ from 'lodash'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AutoSizer } from 'react-virtualized'
@@ -144,11 +145,9 @@ function SessionEndedModal({
                                       />
                                     </div>
                                     <span className="flex-1 font-medium">
-                                      {subSession.type === 'work'
-                                        ? 'Work'
-                                        : subSession.type === 'short_break'
-                                          ? 'Short Break'
-                                          : 'Long Break'}
+                                      {t(
+                                        `timer.${_.camelCase(subSession.type)}`
+                                      )}
                                     </span>
                                     <p>
                                       <span className="font-medium">

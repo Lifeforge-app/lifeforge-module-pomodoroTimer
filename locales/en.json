@@ -4,11 +4,6 @@
   "items": {
     "session": "Session"
   },
-  "tabs": {
-    "timer": "Timer",
-    "statistics": "Statistics",
-    "settings": "Settings"
-  },
   "modals": {
     "session": {
       "create": "Create Session",
@@ -65,7 +60,7 @@
     "readyPrompt": "Ready to focus? Click the button below to get started!",
     "pomodoroCompleted": "Pomodoros Completed",
     "todayPomodoros": "Today's Pomodoros",
-    "pomodoroDone": "{{count}} pomodoros done / {{total}} mins",
+    "pomodoroDone": "{{count}} pomodoros done / {{total}}",
     "sessionConfig": "{{durations}} mins | {{perCycle}} pomodoros per cycle",
     "focusTime": "Focus Time",
     "breakTime": "Break Time",
