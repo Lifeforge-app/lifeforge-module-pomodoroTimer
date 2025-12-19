@@ -425,7 +425,7 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_RvNw',
+          id: '_clone_pMr0',
           max: null,
           min: null,
           name: 'work_duration',
@@ -437,7 +437,7 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_ufOA',
+          id: '_clone_oSOY',
           max: null,
           min: null,
           name: 'short_break_duration',
@@ -449,7 +449,7 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_bZnb',
+          id: '_clone_nKCQ',
           max: null,
           min: null,
           name: 'long_break_duration',
@@ -461,7 +461,7 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_r9Ha',
+          id: '_clone_v4q2',
           max: null,
           min: null,
           name: 'session_until_long_break',
@@ -474,7 +474,7 @@ const pomodoroTimerSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_we9F',
+          id: '_clone_gDKr',
           max: 0,
           min: 0,
           name: 'name',
@@ -487,7 +487,7 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_tIa9',
+          id: '_clone_j1qL',
           maxSelect: 1,
           name: 'status',
           presentable: false,
@@ -498,7 +498,7 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_Yqq9',
+          id: '_clone_uOwy',
           name: 'created',
           onCreate: true,
           onUpdate: false,
