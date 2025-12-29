@@ -13,7 +13,6 @@ const pomodoroTimerSchemas = {
       updated: z.string()
     }),
     raw: {
-      id: 'pbc_1166104964',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -25,7 +24,6 @@ const pomodoroTimerSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -38,7 +36,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'bool3360177899',
           name: 'auto_start_break',
           presentable: false,
           required: false,
@@ -47,7 +44,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'bool107667833',
           name: 'auto_start_work',
           presentable: false,
           required: false,
@@ -56,7 +52,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'file1043998333',
           maxSelect: 1,
           maxSize: 0,
           mimeTypes: [],
@@ -71,7 +66,6 @@ const pomodoroTimerSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text1319973830',
           max: 0,
           min: 0,
           name: 'work_color',
@@ -85,7 +79,6 @@ const pomodoroTimerSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text3106559776',
           max: 0,
           min: 0,
           name: 'short_break_color',
@@ -99,7 +92,6 @@ const pomodoroTimerSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text988500973',
           max: 0,
           min: 0,
           name: 'long_break_color',
@@ -112,7 +104,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'autodate2990389176',
           name: 'created',
           onCreate: true,
           onUpdate: false,
@@ -122,7 +113,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'autodate3332085495',
           name: 'updated',
           onCreate: true,
           onUpdate: true,
@@ -148,7 +138,6 @@ const pomodoroTimerSchemas = {
       pomodoro_count: z.number()
     }),
     raw: {
-      id: 'pbc_540231054',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -160,7 +149,6 @@ const pomodoroTimerSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -173,7 +161,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'number1407847068',
           max: null,
           min: null,
           name: 'work_duration',
@@ -185,7 +172,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'number2361925209',
           max: null,
           min: null,
           name: 'short_break_duration',
@@ -197,7 +183,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'number2645568747',
           max: null,
           min: null,
           name: 'long_break_duration',
@@ -209,7 +194,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'number2396343358',
           max: null,
           min: null,
           name: 'session_until_long_break',
@@ -222,7 +206,6 @@ const pomodoroTimerSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text2555543084',
           max: 0,
           min: 0,
           name: 'name',
@@ -235,7 +218,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'select2063623452',
           maxSelect: 1,
           name: 'status',
           presentable: false,
@@ -246,7 +228,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'autodate2990389176',
           name: 'created',
           onCreate: true,
           onUpdate: false,
@@ -256,7 +237,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'number3086316498',
           max: null,
           min: null,
           name: 'total_time_elapsed',
@@ -268,7 +248,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'number301499186',
           max: null,
           min: null,
           name: 'pomodoro_count',
@@ -293,7 +272,6 @@ const pomodoroTimerSchemas = {
       created: z.string()
     }),
     raw: {
-      id: 'pbc_983852114',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -305,7 +283,6 @@ const pomodoroTimerSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -318,7 +295,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'select1253005059',
           maxSelect: 1,
           name: 'type',
           presentable: false,
@@ -329,7 +305,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'number2254405824',
           max: null,
           min: null,
           name: 'duration_elapsed',
@@ -341,7 +316,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'bool1023422721',
           name: 'is_completed',
           presentable: false,
           required: false,
@@ -350,9 +324,8 @@ const pomodoroTimerSchemas = {
         },
         {
           cascadeDelete: true,
-          collectionId: 'pbc_540231054',
+          collectionId: 'pomodoro_timer__sessions',
           hidden: false,
-          id: 'relation3494172116',
           maxSelect: 1,
           minSelect: 0,
           name: 'session',
@@ -363,7 +336,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'date1367529039',
           max: '',
           min: '',
           name: 'ended',
@@ -374,7 +346,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'autodate2990389176',
           name: 'created',
           onCreate: true,
           onUpdate: false,
@@ -400,7 +371,6 @@ const pomodoroTimerSchemas = {
       total_time_elapsed: z.any()
     }),
     raw: {
-      id: 'pbc_538305253',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: null,
@@ -412,7 +382,6 @@ const pomodoroTimerSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text3208210256',
           max: 0,
           min: 0,
           name: 'id',
@@ -425,7 +394,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_pMr0',
           max: null,
           min: null,
           name: 'work_duration',
@@ -437,7 +405,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_oSOY',
           max: null,
           min: null,
           name: 'short_break_duration',
@@ -449,7 +416,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_nKCQ',
           max: null,
           min: null,
           name: 'long_break_duration',
@@ -461,7 +427,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_v4q2',
           max: null,
           min: null,
           name: 'session_until_long_break',
@@ -474,7 +439,6 @@ const pomodoroTimerSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_gDKr',
           max: 0,
           min: 0,
           name: 'name',
@@ -487,7 +451,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_j1qL',
           maxSelect: 1,
           name: 'status',
           presentable: false,
@@ -498,7 +461,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_uOwy',
           name: 'created',
           onCreate: true,
           onUpdate: false,
@@ -508,7 +470,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'number301499186',
           max: null,
           min: null,
           name: 'pomodoro_count',
@@ -520,7 +481,6 @@ const pomodoroTimerSchemas = {
         },
         {
           hidden: false,
-          id: 'json3086316498',
           maxSize: 1,
           name: 'total_time_elapsed',
           presentable: false,
