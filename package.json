@@ -1,6 +1,12 @@
 {
-  "name": "pomodoro-timer",
-  "version": "0.0.0",
+  "name": "@lifeforge/lifeforge--pomodoro-timer",
+  "displayName": "Pomodoro Timer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lifeforge-app/lifeforge-module-pomodoroTimer.git"
+  },
+  "version": "0.0.1",
+  "author": "Melvin Chia <melvinchia623600@gmail.com>",
   "description": "The ultimate pomodoro timer for peak productivity",
   "scripts": {
     "types": "cd client && bun tsc"
@@ -29,5 +35,17 @@
     "@types/react-dom": "^19.2.0",
     "@types/react-virtualized": "^9.22.3",
     "vite": "^7.1.9"
+  },
+  "exports": {
+    "./server": "./server/index.ts",
+    "./manifest": {
+      "types": "./manifest.d.ts",
+      "default": "./manifest.ts"
+    },
+    "./server/schema": "./server/schema.ts"
+  },
+  "lifeforge": {
+    "icon": "tabler:clock-bolt",
+    "category": "Productivity"
   }
 }
