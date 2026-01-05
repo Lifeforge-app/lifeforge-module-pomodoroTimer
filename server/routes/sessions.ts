@@ -16,11 +16,11 @@ const getById = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'pomodoro_timer__sessions'
+    id: 'pomodoroTimer__sessions'
   })
   .callback(async ({ query: { id }, pb }) => {
     const lastSubSession = await pb.getFirstListItem
-      .collection('pomodoro_timer__sub_sessions')
+      .collection('pomodoroTimer__sub_sessions')
       .filter([{ field: 'session', operator: '=', value: id }])
       .sort(['-created'])
       .execute()
@@ -29,7 +29,7 @@ const getById = forgeController
     return {
       lastSubSessionType: lastSubSession?.type || 'short_break',
       ...(await pb.getOne
-        .collection('pomodoro_timer__sessions_aggregated')
+        .collection('pomodoroTimer__sessions_aggregated')
         .id(id)
         .execute())
     }
@@ -46,7 +46,7 @@ const list = forgeController
   .input({})
   .callback(async ({ pb }) => {
     return await pb.getFullList
-      .collection('pomodoro_timer__sessions_aggregated')
+      .collection('pomodoroTimer__sessions_aggregated')
       .sort(['-created'])
       .execute()
   })
@@ -80,7 +80,7 @@ const create = forgeController
       pb
     }) => {
       return await pb.create
-        .collection('pomodoro_timer__sessions')
+        .collection('pomodoroTimer__sessions')
         .data({
           name,
           work_duration,
@@ -110,11 +110,11 @@ const update = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'pomodoro_timer__sessions'
+    id: 'pomodoroTimer__sessions'
   })
   .callback(({ query: { id }, body, pb }) =>
     pb.update
-      .collection('pomodoro_timer__sessions')
+      .collection('pomodoroTimer__sessions')
       .id(id)
       .data({
         name: body.name
@@ -151,7 +151,7 @@ const changeStatus = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'pomodoro_timer__sessions'
+    id: 'pomodoroTimer__sessions'
   })
   .callback(
     async ({
@@ -164,7 +164,7 @@ const changeStatus = forgeController
         // Create all subsession records
         for (const subSession of subSessions) {
           await pb.create
-            .collection('pomodoro_timer__sub_sessions')
+            .collection('pomodoroTimer__sub_sessions')
             .data({
               session: id,
               type: subSession.type,
@@ -183,7 +183,7 @@ const changeStatus = forgeController
 
         // Update session with final stats
         await pb.update
-          .collection('pomodoro_timer__sessions')
+          .collection('pomodoroTimer__sessions')
           .id(id)
           .data({
             status,
@@ -194,7 +194,7 @@ const changeStatus = forgeController
       } else {
         // Simple status change
         await pb.update
-          .collection('pomodoro_timer__sessions')
+          .collection('pomodoroTimer__sessions')
           .id(id)
           .data({
             status
@@ -203,7 +203,7 @@ const changeStatus = forgeController
       }
 
       return await pb.getOne
-        .collection('pomodoro_timer__sessions_aggregated')
+        .collection('pomodoroTimer__sessions_aggregated')
         .id(id)
         .execute()
     }
@@ -223,10 +223,10 @@ const remove = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'pomodoro_timer__sessions'
+    id: 'pomodoroTimer__sessions'
   })
   .callback(({ query: { id }, pb }) =>
-    pb.delete.collection('pomodoro_timer__sessions').id(id).execute()
+    pb.delete.collection('pomodoroTimer__sessions').id(id).execute()
   )
 
 const listSubSessions = forgeController
@@ -243,11 +243,11 @@ const listSubSessions = forgeController
     })
   })
   .existenceCheck('query', {
-    sessionId: 'pomodoro_timer__sessions'
+    sessionId: 'pomodoroTimer__sessions'
   })
   .callback(async ({ query: { sessionId }, pb }) => {
     return await pb.getFullList
-      .collection('pomodoro_timer__sub_sessions')
+      .collection('pomodoroTimer__sub_sessions')
       .filter([{ field: 'session', operator: '=', value: sessionId }])
       .sort(['created'])
       .execute()

@@ -18,7 +18,7 @@ export interface LocalTimerState {
   sessionKey: number
 }
 
-const STORAGE_KEY = 'pomodoro_timer_state'
+const STORAGE_KEY = 'pomodoroTimer_state'
 
 export function getLocalTimerState(): LocalTimerState | null {
   try {
