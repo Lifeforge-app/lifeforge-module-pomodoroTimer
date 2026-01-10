@@ -1,10 +1,4 @@
 import type { Session } from '@'
-import STATUS_STYLES from '@/constants/status_styles'
-import ModifySessionModal from '@/modal/ModifySessionModal'
-import SessionEndedModal from '@/modal/SessionEndedModal'
-import { useActiveSession } from '@/providers/ActiveSessionProvider'
-import forgeAPI from '@/utils/forgeAPI'
-import formatTime from '@/utils/formatTime'
 import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
@@ -20,12 +14,19 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { anyColorToHex } from 'shared'
 
+import STATUS_STYLES from '@/constants/status_styles'
+import ModifySessionModal from '@/modal/ModifySessionModal'
+import SessionEndedModal from '@/modal/SessionEndedModal'
+import { useActiveSession } from '@/providers/ActiveSessionProvider'
+import forgeAPI from '@/utils/forgeAPI'
+import formatTime from '@/utils/formatTime'
+
 function SessionCard({ session }: { session: Session }) {
   const qc = useQueryClient()
 
   const { t } = useTranslation('apps.pomodoroTimer')
 
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { setActiveSession } = useActiveSession()
 

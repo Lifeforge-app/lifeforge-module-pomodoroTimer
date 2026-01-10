@@ -1,8 +1,9 @@
+import { useModalStore } from 'lifeforge-ui'
+import { useEffect, useRef } from 'react'
+
 import SessionEndedModal from '@/modal/SessionEndedModal'
 import { useActiveSession } from '@/providers/ActiveSessionProvider'
 import { useCurrentSession } from '@/providers/CurrentSessionProvider'
-import { useModalStore } from 'lifeforge-ui'
-import { useEffect, useRef } from 'react'
 
 import NewSessionScreen from '../NewSessionScreen'
 import ControlButtons from './components/ControlButtons'
@@ -16,7 +17,7 @@ export default function Timer() {
 
   const { setActiveSession } = useActiveSession()
 
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const hasOpenedModalRef = useRef(false)
 

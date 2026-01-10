@@ -1,7 +1,3 @@
-import SettingsModal from '@/modal/ModifySettingsModal'
-import { useCurrentSession } from '@/providers/CurrentSessionProvider'
-import { usePomodoro } from '@/providers/PomodoroProvider'
-import { usePomodoroSettings } from '@/providers/PomodoroSettingsProvider'
 import {
   Button,
   ConfirmationModal,
@@ -11,10 +7,15 @@ import {
 } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
 
+import SettingsModal from '@/modal/ModifySettingsModal'
+import { useCurrentSession } from '@/providers/CurrentSessionProvider'
+import { usePomodoro } from '@/providers/PomodoroProvider'
+import { usePomodoroSettings } from '@/providers/PomodoroSettingsProvider'
+
 function Header() {
   const { t } = useTranslation('apps.pomodoroTimer')
 
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const timer = usePomodoro()
 

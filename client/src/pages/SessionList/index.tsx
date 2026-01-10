@@ -1,7 +1,3 @@
-import ModifySessionModal from '@/modal/ModifySessionModal'
-import SettingsModal from '@/modal/ModifySettingsModal'
-import { usePomodoroSettings } from '@/providers/PomodoroSettingsProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
 import {
   Button,
@@ -13,6 +9,11 @@ import {
   useModalStore
 } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
+
+import ModifySessionModal from '@/modal/ModifySessionModal'
+import SettingsModal from '@/modal/ModifySettingsModal'
+import { usePomodoroSettings } from '@/providers/PomodoroSettingsProvider'
+import forgeAPI from '@/utils/forgeAPI'
 
 import SessionCard from './components/SessionCard'
 
