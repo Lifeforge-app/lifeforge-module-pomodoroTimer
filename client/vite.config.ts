@@ -27,7 +27,6 @@ export default defineConfig({
       filename: 'remoteEntry.js',
       exposes: {
         './Manifest': './manifest.ts',
-        './GlobalProvider': './src/providers/PomodoroProviders.tsx'
       },
       shared: {
         react: {

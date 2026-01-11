@@ -7,7 +7,7 @@
   },
   "version": "0.0.2",
   "author": "Melvin Chia <melvinchia623600@gmail.com>",
-  "description": "The ultimate pomodoro timer for peak productivity",
+  "description": "Stay focused with timed work sessions and built-in break reminders.",
   "scripts": {
     "types": "cd client && bun tsc",
     "build:client": "cd client && bun run vite build"

@@ -1,6 +1,6 @@
 {
   "title": "Pomodoro Timer",
-  "description": "Stay focused and productive with the Pomodoro Technique",
+  "description": "Stay focused with timed work sessions and built-in break reminders.",
   "items": {
     "session": "Session"
   },
