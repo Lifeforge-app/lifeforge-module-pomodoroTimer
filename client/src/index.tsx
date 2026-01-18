@@ -11,9 +11,7 @@ import Timer from './pages/Timer'
 
 dayjs.extend(duration)
 
-export type Session = InferOutput<
-  typeof forgeAPI.pomodoroTimer.sessions.list
->[number]
+export type Session = InferOutput<typeof forgeAPI.sessions.list>[number]
 
 export default function PomodoroTimer() {
   const { activeSessionId } = useActiveSession()

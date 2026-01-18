@@ -1,19 +1,16 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
 import { WithQuery } from 'lifeforge-ui'
 import { createContext, useContext } from 'react'
 import type { InferOutput } from 'shared'
 
-export type PomodoroSettings = InferOutput<
-  typeof forgeAPI.pomodoroTimer.settings.get
->
+import forgeAPI from '@/utils/forgeAPI'
+
+export type PomodoroSettings = InferOutput<typeof forgeAPI.settings.get>
 
 const PomodoroSettingsContext = createContext<PomodoroSettings | null>(null)
 
 function PomodoroSettingsProvider({ children }: { children: React.ReactNode }) {
-  const settingsQuery = useQuery(
-    forgeAPI.pomodoroTimer.settings.get.queryOptions()
-  )
+  const settingsQuery = useQuery(forgeAPI.settings.get.queryOptions())
 
   return (
     <WithQuery query={settingsQuery}>

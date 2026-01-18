@@ -1,14 +1,13 @@
-import { useActiveSession } from '@/providers/ActiveSessionProvider'
-import forgeAPI from '@/utils/forgeAPI'
-import { type LocalSubSession } from '@/utils/localStorage'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { WithQuery } from 'lifeforge-ui'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { type InferOutput } from 'shared'
 
-export type Session = InferOutput<
-  typeof forgeAPI.pomodoroTimer.sessions.getById
->
+import { useActiveSession } from '@/providers/ActiveSessionProvider'
+import forgeAPI from '@/utils/forgeAPI'
+import { type LocalSubSession } from '@/utils/localStorage'
+
+export type Session = InferOutput<typeof forgeAPI.sessions.getById>
 
 interface CurrentSessionContext {
   session: Session
@@ -39,18 +38,18 @@ function CurrentSessionProvider({ children }: { children: React.ReactNode }) {
   }, [activeSessionId])
 
   const changeStatusMutation = useMutation(
-    forgeAPI.pomodoroTimer.sessions.changeStatus
+    forgeAPI.sessions.changeStatus
       .input({
         id: activeSessionId || ''
       })
       .mutationOptions({
         onSuccess: data => {
           qc.invalidateQueries({
-            queryKey: forgeAPI.pomodoroTimer.sessions.list.key
+            queryKey: forgeAPI.sessions.list.key
           })
 
           qc.setQueryData(
-            forgeAPI.pomodoroTimer.sessions.getById.input({
+            forgeAPI.sessions.getById.input({
               id: activeSessionId || ''
             }).key,
             data
@@ -60,7 +59,7 @@ function CurrentSessionProvider({ children }: { children: React.ReactNode }) {
   )
 
   const sessionQuery = useQuery(
-    forgeAPI.pomodoroTimer.sessions.getById
+    forgeAPI.sessions.getById
       .input({
         id: activeSessionId || ''
       })

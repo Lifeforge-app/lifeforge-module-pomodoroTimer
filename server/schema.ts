@@ -1,6 +1,7 @@
+import { cleanSchemas } from '@lifeforge/server-utils'
 import z from 'zod'
 
-const pomodoroTimerSchemas = {
+export const schemas = {
   settings: {
     schema: z.object({
       auto_start_break: z.boolean(),
@@ -497,4 +498,4 @@ const pomodoroTimerSchemas = {
   }
 }
 
-export default pomodoroTimerSchemas
+export default cleanSchemas(schemas)

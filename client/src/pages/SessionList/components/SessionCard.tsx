@@ -31,14 +31,14 @@ function SessionCard({ session }: { session: Session }) {
   const { setActiveSession } = useActiveSession()
 
   const deleteMutation = useMutation(
-    forgeAPI.pomodoroTimer.sessions.remove
+    forgeAPI.sessions.remove
       .input({
         id: session.id
       })
       .mutationOptions({
         onSuccess: () => {
           qc.invalidateQueries({
-            queryKey: forgeAPI.pomodoroTimer.sessions.list.key
+            queryKey: forgeAPI.sessions.list.key
           })
         },
         onError: (error: Error) => {

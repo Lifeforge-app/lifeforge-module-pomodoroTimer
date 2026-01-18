@@ -1,7 +1,8 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
 import { LoadingScreen, WithQuery } from 'lifeforge-ui'
 import { createContext, useContext, useEffect, useState } from 'react'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 interface ActiveSessionContext {
   activeSessionId: string | null
@@ -16,9 +17,7 @@ function ActiveSessionProvider({ children }: { children: React.ReactNode }) {
   const [initialized, setInitialized] = useState(false)
 
   // Fetch sessions list to find any active session
-  const sessionsQuery = useQuery(
-    forgeAPI.pomodoroTimer.sessions.list.queryOptions()
-  )
+  const sessionsQuery = useQuery(forgeAPI.sessions.list.queryOptions())
 
   // Auto-detect active session on load
   useEffect(() => {

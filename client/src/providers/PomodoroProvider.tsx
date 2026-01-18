@@ -1,3 +1,13 @@
+import {
+  type SetStateAction,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
+
 import { useCurrentSession } from '@/providers/CurrentSessionProvider'
 import forgeAPI from '@/utils/forgeAPI'
 import {
@@ -9,15 +19,6 @@ import {
   initializeLocalTimerState,
   saveLocalTimerState
 } from '@/utils/localStorage'
-import {
-  type SetStateAction,
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState
-} from 'react'
 
 import { usePomodoroSettings } from './PomodoroSettingsProvider'
 
@@ -312,11 +313,11 @@ function PomodoroProvider({ children }: { children: React.ReactNode }) {
         if (stateRef.current.timeLeft === 0) {
           // Play notification sound
           const audio = new Audio(
-            forgeAPI.media.input({
+            forgeAPI.getMedia({
               collectionId: settingsRef.current.collectionId,
               recordId: settingsRef.current.id,
               fieldId: settingsRef.current.notification_sound
-            }).endpoint
+            })
           )
 
           await audio.play().catch(() => {})

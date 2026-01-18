@@ -1,9 +1,9 @@
-import { forgeRouter } from '@functions/routes'
+import { forgeRouter } from '@lifeforge/server-utils'
 
-import sessions from './routes/sessions'
-import settings from './routes/settings'
+import * as sessionsRoutes from './routes/sessions'
+import * as settingsRoutes from './routes/settings'
 
 export default forgeRouter({
-  settings,
-  sessions
+  settings: settingsRoutes,
+  sessions: sessionsRoutes
 })

@@ -1,11 +1,12 @@
 import type { Session } from '@'
-import DEFAULT_OPTIONS from '@/constants/default_durations'
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { FormModal, defineForm } from 'lifeforge-ui'
 import { toast } from 'react-toastify'
 import type { InferInput } from 'shared'
+
+import DEFAULT_OPTIONS from '@/constants/default_durations'
+import forgeAPI from '@/utils/forgeAPI'
 
 function ModifySessionModal({
   onClose,
@@ -21,14 +22,14 @@ function ModifySessionModal({
 
   const mutation = useMutation(
     (openType === 'create'
-      ? forgeAPI.pomodoroTimer.sessions.create
-      : forgeAPI.pomodoroTimer.sessions.update.input({
+      ? forgeAPI.sessions.create
+      : forgeAPI.sessions.update.input({
           id: initialData?.id || ''
         })
     ).mutationOptions({
       onSuccess: () => {
         qc.invalidateQueries({
-          queryKey: forgeAPI.pomodoroTimer.sessions.list.key
+          queryKey: forgeAPI.sessions.list.key
         })
       },
       onError: error => {
@@ -39,9 +40,7 @@ function ModifySessionModal({
   )
 
   const { formProps } = defineForm<
-    InferInput<
-      (typeof forgeAPI.pomodoroTimer.sessions)[typeof openType]
-    >['body']
+    InferInput<(typeof forgeAPI.sessions)[typeof openType]>['body']
   >({
     icon: openType === 'create' ? 'tabler:plus' : 'tabler:pencil',
     title: `session.${openType}`,

@@ -1,26 +1,21 @@
 import z from 'zod'
 
-import { forgeController, forgeRouter } from '@functions/routes'
+import forge from '../forge'
 
-const getById = forgeController
+export const getById = forge
   .query()
-  .description({
-    en: 'Get pomodoro session by ID',
-    ms: 'Dapatkan sesi pomodoro mengikut ID',
-    'zh-CN': '通过ID获取番茄钟会话',
-    'zh-TW': '通過ID獲取番茄鐘會話'
-  })
+  .description('Get pomodoro session by ID')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'pomodoroTimer__sessions'
+    id: 'sessions'
   })
   .callback(async ({ query: { id }, pb }) => {
     const lastSubSession = await pb.getFirstListItem
-      .collection('pomodoroTimer__sub_sessions')
+      .collection('sub_sessions')
       .filter([{ field: 'session', operator: '=', value: id }])
       .sort(['-created'])
       .execute()
@@ -28,37 +23,24 @@ const getById = forgeController
 
     return {
       lastSubSessionType: lastSubSession?.type || 'short_break',
-      ...(await pb.getOne
-        .collection('pomodoroTimer__sessions_aggregated')
-        .id(id)
-        .execute())
+      ...(await pb.getOne.collection('sessions_aggregated').id(id).execute())
     }
   })
 
-const list = forgeController
+export const list = forge
   .query()
-  .description({
-    en: 'List all pomodoro sessions',
-    ms: 'Senarai semua sesi pomodoro',
-    'zh-CN': '列出所有番茄钟会话',
-    'zh-TW': '列出所有番茄鐘會話'
-  })
+  .description('List all pomodoro sessions')
   .input({})
   .callback(async ({ pb }) => {
     return await pb.getFullList
-      .collection('pomodoroTimer__sessions_aggregated')
+      .collection('sessions_aggregated')
       .sort(['-created'])
       .execute()
   })
 
-const create = forgeController
+export const create = forge
   .mutation()
-  .description({
-    en: 'Create a new pomodoro session',
-    ms: 'Buat sesi pomodoro baru',
-    'zh-CN': '创建新的番茄钟会话',
-    'zh-TW': '創建新的番茄鐘會話'
-  })
+  .description('Create a new pomodoro session')
   .input({
     body: z.object({
       name: z.string(),
@@ -80,7 +62,7 @@ const create = forgeController
       pb
     }) => {
       return await pb.create
-        .collection('pomodoroTimer__sessions')
+        .collection('sessions')
         .data({
           name,
           work_duration,
@@ -93,14 +75,9 @@ const create = forgeController
     }
   )
 
-const update = forgeController
+export const update = forge
   .mutation()
-  .description({
-    en: 'Update a pomodoro session',
-    ms: 'Kemas kini sesi pomodoro',
-    'zh-CN': '更新番茄钟会话',
-    'zh-TW': '更新番茄鐘會話'
-  })
+  .description('Update a pomodoro session')
   .input({
     query: z.object({
       id: z.string()
@@ -110,11 +87,11 @@ const update = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'pomodoroTimer__sessions'
+    id: 'sessions'
   })
   .callback(({ query: { id }, body, pb }) =>
     pb.update
-      .collection('pomodoroTimer__sessions')
+      .collection('sessions')
       .id(id)
       .data({
         name: body.name
@@ -122,14 +99,9 @@ const update = forgeController
       .execute()
   )
 
-const changeStatus = forgeController
+export const changeStatus = forge
   .mutation()
-  .description({
-    en: 'Change status of a pomodoro session',
-    ms: 'Tukar status sesi pomodoro',
-    'zh-CN': '更改番茄钟会话的状态',
-    'zh-TW': '更改番茄鐘會話的狀態'
-  })
+  .description('Change status of a pomodoro session')
   .input({
     query: z.object({
       id: z.string()
@@ -151,7 +123,7 @@ const changeStatus = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'pomodoroTimer__sessions'
+    id: 'sessions'
   })
   .callback(
     async ({
@@ -164,7 +136,7 @@ const changeStatus = forgeController
         // Create all subsession records
         for (const subSession of subSessions) {
           await pb.create
-            .collection('pomodoroTimer__sub_sessions')
+            .collection('sub_sessions')
             .data({
               session: id,
               type: subSession.type,
@@ -183,7 +155,7 @@ const changeStatus = forgeController
 
         // Update session with final stats
         await pb.update
-          .collection('pomodoroTimer__sessions')
+          .collection('sessions')
           .id(id)
           .data({
             status,
@@ -194,7 +166,7 @@ const changeStatus = forgeController
       } else {
         // Simple status change
         await pb.update
-          .collection('pomodoroTimer__sessions')
+          .collection('sessions')
           .id(id)
           .data({
             status
@@ -202,63 +174,40 @@ const changeStatus = forgeController
           .execute()
       }
 
-      return await pb.getOne
-        .collection('pomodoroTimer__sessions_aggregated')
-        .id(id)
-        .execute()
+      return await pb.getOne.collection('sessions_aggregated').id(id).execute()
     }
   )
 
-const remove = forgeController
+export const remove = forge
   .mutation()
-  .description({
-    en: 'Delete a pomodoro session',
-    ms: 'Padam sesi pomodoro',
-    'zh-CN': '删除番茄钟会话',
-    'zh-TW': '刪除番茄鐘會話'
-  })
+  .description('Delete a pomodoro session')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'pomodoroTimer__sessions'
+    id: 'sessions'
   })
   .callback(({ query: { id }, pb }) =>
-    pb.delete.collection('pomodoroTimer__sessions').id(id).execute()
+    pb.delete.collection('sessions').id(id).execute()
   )
 
-const listSubSessions = forgeController
+export const listSubSessions = forge
   .query()
-  .description({
-    en: 'List sub-sessions for a pomodoro session',
-    ms: 'Senarai sub-sesi untuk sesi pomodoro',
-    'zh-CN': '列出番茄钟会话的子会话',
-    'zh-TW': '列出番茄鐘會話的子會話'
-  })
+  .description('List sub-sessions for a pomodoro session')
   .input({
     query: z.object({
       sessionId: z.string()
     })
   })
   .existenceCheck('query', {
-    sessionId: 'pomodoroTimer__sessions'
+    sessionId: 'sessions'
   })
   .callback(async ({ query: { sessionId }, pb }) => {
     return await pb.getFullList
-      .collection('pomodoroTimer__sub_sessions')
+      .collection('sub_sessions')
       .filter([{ field: 'session', operator: '=', value: sessionId }])
       .sort(['created'])
       .execute()
   })
-
-export default forgeRouter({
-  getById,
-  list,
-  create,
-  update,
-  changeStatus,
-  remove,
-  listSubSessions
-})

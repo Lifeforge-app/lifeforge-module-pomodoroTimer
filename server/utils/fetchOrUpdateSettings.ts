@@ -1,14 +1,13 @@
-import { SCHEMAS } from '@schema'
 import fs from 'fs'
 import z from 'zod'
 
-import { PBService } from '@functions/database'
+import pomodoroTimerSchemas from '../schema'
 
 const DEFAULT_SOUND_LOCATION =
   '../apps/lifeforge--pomodoro-timer/server/assets/bell.opus'
 
 const DEFAULT_SETTINGS: Omit<
-  z.infer<typeof SCHEMAS.pomodoroTimer.settings.schema>,
+  z.infer<typeof pomodoroTimerSchemas.settings>,
   'created' | 'updated' | 'notification_sound'
 > & {
   notification_sound: File
@@ -28,24 +27,21 @@ export default async function fetchOrUpdateSettings({
   pb,
   overwrite
 }: {
-  pb: PBService
+  pb: any
   overwrite?: Partial<
-    Omit<
-      z.infer<typeof SCHEMAS.pomodoroTimer.settings.schema>,
-      'notification_sound'
-    >
+    Omit<z.infer<typeof pomodoroTimerSchemas.settings>, 'notification_sound'>
   > & {
     notification_sound?: File | null | undefined
   }
 }) {
   const settings = await pb.getFirstListItem
-    .collection('pomodoroTimer__settings')
+    .collection('settings')
     .execute()
     .catch(() => null)
 
   if (!settings) {
     return pb.create
-      .collection('pomodoroTimer__settings')
+      .collection('settings')
       .data({
         ...DEFAULT_SETTINGS,
         ...(overwrite || {})
@@ -58,7 +54,7 @@ export default async function fetchOrUpdateSettings({
   }
 
   return pb.update
-    .collection('pomodoroTimer__settings')
+    .collection('settings')
     .id(settings.id)
     .data({
       ...(overwrite || {})

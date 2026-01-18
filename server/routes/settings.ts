@@ -1,29 +1,17 @@
 import { z } from 'zod'
 
-import getMedia from '@functions/external/media'
-import { forgeController, forgeRouter } from '@functions/routes'
-
+import forge from '../forge'
 import fetchOrUpdateSettings from '../utils/fetchOrUpdateSettings'
 
-const get = forgeController
+export const get = forge
   .query()
-  .description({
-    en: 'Get user pomodoro settings',
-    ms: 'Dapatkan tetapan pomodoro pengguna',
-    'zh-CN': '获取用户番茄钟设置',
-    'zh-TW': '獲取用戶番茄鐘設定'
-  })
+  .description('Get user pomodoro settings')
   .input({})
   .callback(({ pb }) => fetchOrUpdateSettings({ pb }))
 
-const update = forgeController
+export const update = forge
   .mutation()
-  .description({
-    en: 'Update pomodoro settings',
-    ms: 'Kemas kini tetapan pomodoro',
-    'zh-CN': '更新番茄钟设置',
-    'zh-TW': '更新番茄鐘設定'
-  })
+  .description('Update pomodoro settings')
   .input({
     body: z.object({
       auto_start_break: z.boolean().optional(),
@@ -38,14 +26,20 @@ const update = forgeController
       optional: true
     }
   })
-  .callback(async ({ body, pb, media: { notification_sound } }) =>
-    fetchOrUpdateSettings({
+  .callback(
+    async ({
+      body,
       pb,
-      overwrite: {
-        ...body,
-        ...(await getMedia('notification_sound', notification_sound))
+      media: { notification_sound },
+      core: {
+        media: { retrieveMedia }
       }
-    })
+    }) =>
+      fetchOrUpdateSettings({
+        pb,
+        overwrite: {
+          ...body,
+          ...(await retrieveMedia('notification_sound', notification_sound))
+        }
+      })
   )
-
-export default forgeRouter({ get, update })

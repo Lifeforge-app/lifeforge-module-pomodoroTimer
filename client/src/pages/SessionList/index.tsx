@@ -24,9 +24,7 @@ export default function SessionList() {
 
   const settings = usePomodoroSettings()
 
-  const sessionsQuery = useQuery(
-    forgeAPI.pomodoroTimer.sessions.list.queryOptions()
-  )
+  const sessionsQuery = useQuery(forgeAPI.sessions.list.queryOptions())
 
   return (
     <>

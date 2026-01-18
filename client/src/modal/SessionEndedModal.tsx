@@ -1,6 +1,3 @@
-import { useSessionStyles } from '@/hooks/useSessionStyles'
-import forgeAPI from '@/utils/forgeAPI'
-import formatTime from '@/utils/formatTime'
 import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
 import { Card, ModalHeader, Scrollbar, WithQuery } from 'lifeforge-ui'
@@ -10,11 +7,13 @@ import { useTranslation } from 'react-i18next'
 import { AutoSizer } from 'react-virtualized'
 import { type InferOutput } from 'shared'
 
+import { useSessionStyles } from '@/hooks/useSessionStyles'
+import forgeAPI from '@/utils/forgeAPI'
+import formatTime from '@/utils/formatTime'
+
 import StatsCard from '../pages/Timer/components/StatsCard'
 
-type SubSession = InferOutput<
-  typeof forgeAPI.pomodoroTimer.sessions.listSubSessions
->[number]
+type SubSession = InferOutput<typeof forgeAPI.sessions.listSubSessions>[number]
 
 interface Cycle {
   cycleNumber: number
@@ -35,15 +34,11 @@ function SessionEndedModal({
   const sessionStyles = useSessionStyles()
 
   const sessionQuery = useQuery(
-    forgeAPI.pomodoroTimer.sessions.getById
-      .input({ id: sessionId })
-      .queryOptions()
+    forgeAPI.sessions.getById.input({ id: sessionId }).queryOptions()
   )
 
   const subSessionsQuery = useQuery(
-    forgeAPI.pomodoroTimer.sessions.listSubSessions
-      .input({ sessionId })
-      .queryOptions()
+    forgeAPI.sessions.listSubSessions.input({ sessionId }).queryOptions()
   )
 
   // Group subsessions by cycle
