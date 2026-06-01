@@ -1,5 +1,6 @@
-import { useModalStore } from 'lifeforge-ui'
 import { useEffect, useRef } from 'react'
+
+import { useModalStore } from '@lifeforge/ui'
 
 import SessionEndedModal from '@/modal/SessionEndedModal'
 import { useActiveSession } from '@/providers/ActiveSessionProvider'

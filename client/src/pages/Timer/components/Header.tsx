@@ -1,11 +1,12 @@
+import { useTranslation } from 'react-i18next'
+
 import {
   Button,
   ConfirmationModal,
   ContextMenu,
   ContextMenuItem,
   useModalStore
-} from 'lifeforge-ui'
-import { useTranslation } from 'react-i18next'
+} from '@lifeforge/ui'
 
 import SettingsModal from '@/modal/ModifySettingsModal'
 import { useCurrentSession } from '@/providers/CurrentSessionProvider'

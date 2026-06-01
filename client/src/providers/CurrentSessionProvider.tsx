@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { WithQuery } from 'lifeforge-ui'
+import { WithQuery } from '@lifeforge/ui'
 import { createContext, useContext, useEffect, useState } from 'react'
-import { type InferOutput } from 'shared'
+import { type InferOutput } from '@lifeforge/shared'
 
 import { useActiveSession } from '@/providers/ActiveSessionProvider'
 import forgeAPI from '@/utils/forgeAPI'

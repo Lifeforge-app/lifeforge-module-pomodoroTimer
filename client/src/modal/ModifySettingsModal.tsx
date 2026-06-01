@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { FormModal, defineForm } from 'lifeforge-ui'
-import { type InferInput, getFormFileFieldInitialData } from 'shared'
+import { FormModal, defineForm } from '@lifeforge/ui'
+import { type InferInput, getFormFileFieldInitialData } from '@lifeforge/shared'
 
 import { type PomodoroSettings } from '@/providers/PomodoroSettingsProvider'
 import forgeAPI from '@/utils/forgeAPI'

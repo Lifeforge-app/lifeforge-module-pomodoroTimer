@@ -1,9 +1,9 @@
 import type { Session } from '@'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
-import { FormModal, defineForm } from 'lifeforge-ui'
+import { FormModal, defineForm } from '@lifeforge/ui'
 import { toast } from 'react-toastify'
-import type { InferInput } from 'shared'
+import type { InferInput } from '@lifeforge/shared'
 
 import DEFAULT_OPTIONS from '@/constants/default_durations'
 import forgeAPI from '@/utils/forgeAPI'

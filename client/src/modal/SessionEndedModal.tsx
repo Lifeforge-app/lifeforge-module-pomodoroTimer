@@ -1,11 +1,11 @@
 import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
-import { Card, ModalHeader, Scrollbar, WithQuery } from 'lifeforge-ui'
+import { Card, ModalHeader, Scrollbar, WithQuery } from '@lifeforge/ui'
 import _ from 'lodash'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AutoSizer } from 'react-virtualized'
-import { type InferOutput } from 'shared'
+import { type InferOutput } from '@lifeforge/shared'
 
 import { useSessionStyles } from '@/hooks/useSessionStyles'
 import forgeAPI from '@/utils/forgeAPI'

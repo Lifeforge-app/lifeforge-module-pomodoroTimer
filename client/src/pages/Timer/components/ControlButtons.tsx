@@ -1,5 +1,6 @@
+import { Button } from '@lifeforge/ui'
+
 import { usePomodoro } from '@/providers/PomodoroProvider'
-import { Button } from 'lifeforge-ui'
 
 function ControlButtons() {
   const timer = usePomodoro()

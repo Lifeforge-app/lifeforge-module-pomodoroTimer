@@ -9,10 +9,10 @@ import {
   ContextMenuItem,
   TagChip,
   useModalStore
-} from 'lifeforge-ui'
+} from '@lifeforge/ui'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import { anyColorToHex } from 'shared'
+import { anyColorToHex } from '@lifeforge/shared'
 
 import STATUS_STYLES from '@/constants/status_styles'
 import ModifySessionModal from '@/modal/ModifySessionModal'

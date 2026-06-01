@@ -1,9 +1,11 @@
 import type { Session } from '@'
+import { Icon } from '@iconify/react'
+import { useTranslation } from 'react-i18next'
+
+import { Card } from '@lifeforge/ui'
+
 import { useSessionStyles } from '@/hooks/useSessionStyles'
 import formatTime from '@/utils/formatTime'
-import { Icon } from '@iconify/react'
-import { Card } from 'lifeforge-ui'
-import { useTranslation } from 'react-i18next'
 
 function StatsCard({
   session,

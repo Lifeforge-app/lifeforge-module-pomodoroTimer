@@ -1,4 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+
 import {
   Button,
   ContextMenuItem,
@@ -7,8 +9,7 @@ import {
   Scrollbar,
   WithQuery,
   useModalStore
-} from 'lifeforge-ui'
-import { useTranslation } from 'react-i18next'
+} from '@lifeforge/ui'
 
 import ModifySessionModal from '@/modal/ModifySessionModal'
 import SettingsModal from '@/modal/ModifySettingsModal'
