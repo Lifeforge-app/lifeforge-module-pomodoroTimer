@@ -1,10 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { WithQuery } from '@lifeforge/ui'
 import { createContext, useContext, useEffect, useState } from 'react'
-import { type InferOutput } from '@lifeforge/shared'
 
+import { type InferOutput } from '@lifeforge/shared'
+import { WithQuery } from '@lifeforge/ui'
+
+import { forgeAPI } from '@/manifest'
 import { useActiveSession } from '@/providers/ActiveSessionProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { type LocalSubSession } from '@/utils/localStorage'
 
 export type Session = InferOutput<typeof forgeAPI.sessions.getById>

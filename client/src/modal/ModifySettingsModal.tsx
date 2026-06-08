@@ -3,7 +3,7 @@ import { FormModal, defineForm } from '@lifeforge/ui'
 import { type InferInput, getFormFileFieldInitialData } from '@lifeforge/shared'
 
 import { type PomodoroSettings } from '@/providers/PomodoroSettingsProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 export default function SettingsModal({
   onClose,

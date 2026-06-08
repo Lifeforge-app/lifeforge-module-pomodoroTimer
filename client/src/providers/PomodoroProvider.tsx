@@ -9,7 +9,7 @@ import {
 } from 'react'
 
 import { useCurrentSession } from '@/providers/CurrentSessionProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 import {
   type LocalSubSession,
   type LocalTimerState,

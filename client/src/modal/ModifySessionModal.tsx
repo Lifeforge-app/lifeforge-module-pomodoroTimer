@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import type { InferInput } from '@lifeforge/shared'
 
 import DEFAULT_OPTIONS from '@/constants/default_durations'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 function ModifySessionModal({
   onClose,

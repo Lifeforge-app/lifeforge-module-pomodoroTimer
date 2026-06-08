@@ -4,7 +4,7 @@ import duration from 'dayjs/plugin/duration'
 import { type InferOutput } from '@lifeforge/shared'
 
 import { useActiveSession } from '@/providers/ActiveSessionProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import './index.css'
 import SessionList from './pages/SessionList'

@@ -8,7 +8,7 @@ import { AutoSizer } from 'react-virtualized'
 import { type InferOutput } from '@lifeforge/shared'
 
 import { useSessionStyles } from '@/hooks/useSessionStyles'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 import formatTime from '@/utils/formatTime'
 
 import StatsCard from '../pages/Timer/components/StatsCard'

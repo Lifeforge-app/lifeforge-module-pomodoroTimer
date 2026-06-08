@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 import { LoadingScreen, WithQuery } from '@lifeforge/ui'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 interface ActiveSessionContext {
   activeSessionId: string | null

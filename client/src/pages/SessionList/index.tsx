@@ -14,7 +14,7 @@ import {
 import ModifySessionModal from '@/modal/ModifySessionModal'
 import SettingsModal from '@/modal/ModifySettingsModal'
 import { usePomodoroSettings } from '@/providers/PomodoroSettingsProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import SessionCard from './components/SessionCard'
 

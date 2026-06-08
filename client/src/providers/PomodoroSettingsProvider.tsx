@@ -3,7 +3,7 @@ import { WithQuery } from '@lifeforge/ui'
 import { createContext, useContext } from 'react'
 import type { InferOutput } from '@lifeforge/shared'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 export type PomodoroSettings = InferOutput<typeof forgeAPI.settings.get>
 

@@ -18,7 +18,7 @@ import STATUS_STYLES from '@/constants/status_styles'
 import ModifySessionModal from '@/modal/ModifySessionModal'
 import SessionEndedModal from '@/modal/SessionEndedModal'
 import { useActiveSession } from '@/providers/ActiveSessionProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 import formatTime from '@/utils/formatTime'
 
 function SessionCard({ session }: { session: Session }) {
