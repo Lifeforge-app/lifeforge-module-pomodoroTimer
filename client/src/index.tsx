@@ -6,7 +6,6 @@ import { type InferOutput } from '@lifeforge/api'
 import { forgeAPI } from '@/manifest'
 import { useActiveSession } from '@/providers/ActiveSessionProvider'
 
-import './index.css'
 import SessionList from './pages/SessionList'
 import Timer from './pages/Timer'
 
