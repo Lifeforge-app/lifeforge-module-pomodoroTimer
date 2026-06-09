@@ -1,6 +1,7 @@
+import dayjs from 'dayjs'
+
 import { useSessionStyles } from '@/hooks/useSessionStyles'
 import { usePomodoro } from '@/providers/PomodoroProvider'
-import dayjs from 'dayjs'
 
 import useProgress from '../hooks/useProgress'
 

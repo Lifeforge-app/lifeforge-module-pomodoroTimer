@@ -8,8 +8,8 @@ import {
   useState
 } from 'react'
 
-import { useCurrentSession } from '@/providers/CurrentSessionProvider'
 import { forgeAPI } from '@/manifest'
+import { useCurrentSession } from '@/providers/CurrentSessionProvider'
 import {
   type LocalSubSession,
   type LocalTimerState,

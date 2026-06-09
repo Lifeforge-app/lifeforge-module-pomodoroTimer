@@ -1,5 +1,6 @@
-import { TAILWIND_PALETTE } from '@lifeforge/ui'
 import type { Session } from '@'
+
+import { TAILWIND_PALETTE } from '@lifeforge/ui'
 
 const STATUS_STYLES: Record<
   Session['status'],

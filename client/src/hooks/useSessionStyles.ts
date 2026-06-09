@@ -1,6 +1,7 @@
+import { useMemo } from 'react'
+
 import { usePomodoroSettings } from '@/providers/PomodoroSettingsProvider'
 import type { SubSessionType } from '@/utils/localStorage'
-import { useMemo } from 'react'
 
 export interface SessionStyle {
   icon: string

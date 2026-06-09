@@ -191,11 +191,7 @@ export const changeStatus = forge
           })
           .execute()
       } else {
-        await pb.update
-          .collection('sessions')
-          .id(id)
-          .data({ status })
-          .execute()
+        await pb.update.collection('sessions').id(id).data({ status }).execute()
       }
 
       return response.ok(
