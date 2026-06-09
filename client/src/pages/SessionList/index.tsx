@@ -11,15 +11,15 @@ import {
   useModalStore
 } from '@lifeforge/ui'
 
+import { forgeAPI } from '@/manifest'
 import ModifySessionModal from '@/modal/ModifySessionModal'
 import SettingsModal from '@/modal/ModifySettingsModal'
 import { usePomodoroSettings } from '@/providers/PomodoroSettingsProvider'
-import { forgeAPI } from '@/manifest'
 
 import SessionCard from './components/SessionCard'
 
 export default function SessionList() {
-  const { t } = useTranslation('apps.pomodoroTimer')
+  const { t } = useTranslation('apps.pomodoro-timer')
 
   const { open } = useModalStore()
 
@@ -76,7 +76,7 @@ export default function SessionList() {
               icon="tabler:clock-off"
               message={{
                 id: 'session',
-                namespace: 'apps.pomodoroTimer'
+                namespace: 'apps.pomodoro-timer'
               }}
             />
           )

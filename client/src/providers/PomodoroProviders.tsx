@@ -1,4 +1,4 @@
-import { useAuth } from '@lifeforge/shared'
+import { useAuth } from '@lifeforge/api'
 
 import ActiveSessionProvider from './ActiveSessionProvider'
 import CurrentSessionProvider from './CurrentSessionProvider'

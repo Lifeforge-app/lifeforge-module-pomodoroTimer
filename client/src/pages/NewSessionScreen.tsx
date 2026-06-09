@@ -1,8 +1,7 @@
 import type { Session } from '@'
-import { Icon } from '@iconify/react'
 import { useTranslation } from 'react-i18next'
 
-import { Button } from '@lifeforge/ui'
+import { Button, Icon } from '@lifeforge/ui'
 
 function NewSessionScreen({
   session,
@@ -11,7 +10,7 @@ function NewSessionScreen({
   session: Session
   changeStatus: (newStatus: Session['status']) => Promise<void>
 }) {
-  const { t } = useTranslation('apps.pomodoroTimer')
+  const { t } = useTranslation('apps.pomodoro-timer')
 
   return (
     <div className="flex-center flex-1 flex-col">
@@ -23,7 +22,7 @@ function NewSessionScreen({
       <Button
         className="mt-6"
         icon="tabler:play"
-        namespace="apps.pomodoroTimer"
+        namespace="apps.pomodoro-timer"
         onClick={() => {
           changeStatus('active')
         }}

@@ -1,9 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { FormModal, defineForm } from '@lifeforge/ui'
-import { type InferInput, getFormFileFieldInitialData } from '@lifeforge/shared'
 
-import { type PomodoroSettings } from '@/providers/PomodoroSettingsProvider'
+import { type InferInput } from '@lifeforge/api'
+import {
+  FormModal,
+  defineForm,
+  getFormFileFieldInitialData
+} from '@lifeforge/ui'
+
 import { forgeAPI } from '@/manifest'
+import { type PomodoroSettings } from '@/providers/PomodoroSettingsProvider'
 
 export default function SettingsModal({
   onClose,
@@ -31,7 +36,7 @@ export default function SettingsModal({
     InferInput<typeof forgeAPI.settings.update>['body']
   >({
     title: 'Settings',
-    namespace: 'apps.pomodoroTimer',
+    namespace: 'apps.pomodoro-timer',
     icon: 'tabler:settings',
     onClose,
     submitButton: 'update'

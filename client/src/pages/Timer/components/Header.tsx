@@ -14,7 +14,7 @@ import { usePomodoro } from '@/providers/PomodoroProvider'
 import { usePomodoroSettings } from '@/providers/PomodoroSettingsProvider'
 
 function Header() {
-  const { t } = useTranslation('apps.pomodoroTimer')
+  const { t } = useTranslation('apps.pomodoro-timer')
 
   const { open } = useModalStore()
 
@@ -57,7 +57,7 @@ function Header() {
         <Button
           disabled={timer.isRunning}
           icon="tabler:player-stop"
-          namespace="apps.pomodoroTimer"
+          namespace="apps.pomodoro-timer"
           variant="secondary"
           onClick={handleStopSession}
         >
@@ -67,7 +67,7 @@ function Header() {
           <ContextMenuItem
             icon="tabler:settings"
             label="Settings"
-            namespace="apps.pomodoroTimer"
+            namespace="apps.pomodoro-timer"
             onClick={() =>
               open(SettingsModal, {
                 initialData: settings

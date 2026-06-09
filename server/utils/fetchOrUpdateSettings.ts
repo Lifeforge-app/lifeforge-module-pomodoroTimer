@@ -4,7 +4,7 @@ import z from 'zod'
 import pomodoroTimerSchemas from '../schema'
 
 const DEFAULT_SOUND_LOCATION =
-  '../apps/lifeforge--pomodoroTimer/server/assets/bell.opus'
+  '../apps/lifeforge--pomodoro-timer/server/assets/bell.opus'
 
 const DEFAULT_SETTINGS: Omit<
   z.infer<typeof pomodoroTimerSchemas.settings>,

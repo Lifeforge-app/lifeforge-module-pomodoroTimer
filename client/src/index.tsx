@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 
-import { type InferOutput } from '@lifeforge/shared'
+import { type InferOutput } from '@lifeforge/api'
 
 import { useActiveSession } from '@/providers/ActiveSessionProvider'
 import { forgeAPI } from '@/manifest'

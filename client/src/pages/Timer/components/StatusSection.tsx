@@ -1,16 +1,18 @@
+import _ from 'lodash'
+import { useTranslation } from 'react-i18next'
+
+import { Icon } from '@lifeforge/ui'
+
 import { useSessionStyles } from '@/hooks/useSessionStyles'
 import { useCurrentSession } from '@/providers/CurrentSessionProvider'
 import { usePomodoro } from '@/providers/PomodoroProvider'
-import { Icon } from '@iconify/react'
-import _ from 'lodash'
-import { useTranslation } from 'react-i18next'
 
 function StatusSection() {
   const timer = usePomodoro()
 
   const currentSession = useCurrentSession()
 
-  const { t } = useTranslation('apps.pomodoroTimer')
+  const { t } = useTranslation('apps.pomodoro-timer')
 
   const sessionStyles = useSessionStyles()
 

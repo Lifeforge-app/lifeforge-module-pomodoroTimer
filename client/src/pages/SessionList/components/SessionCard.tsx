@@ -1,30 +1,31 @@
 import type { Session } from '@'
-import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
+
+import { anyColorToHex } from '@lifeforge/ui'
 import {
   Card,
   ConfirmationModal,
   ContextMenu,
   ContextMenuItem,
+  Icon,
   TagChip,
+  toast,
   useModalStore
 } from '@lifeforge/ui'
-import { useTranslation } from 'react-i18next'
-import { toast } from 'react-toastify'
-import { anyColorToHex } from '@lifeforge/shared'
 
 import STATUS_STYLES from '@/constants/status_styles'
+import { forgeAPI } from '@/manifest'
 import ModifySessionModal from '@/modal/ModifySessionModal'
 import SessionEndedModal from '@/modal/SessionEndedModal'
 import { useActiveSession } from '@/providers/ActiveSessionProvider'
-import { forgeAPI } from '@/manifest'
 import formatTime from '@/utils/formatTime'
 
 function SessionCard({ session }: { session: Session }) {
   const qc = useQueryClient()
 
-  const { t } = useTranslation('apps.pomodoroTimer')
+  const { t } = useTranslation('apps.pomodoro-timer')
 
   const { open } = useModalStore()
 
@@ -54,7 +55,7 @@ function SessionCard({ session }: { session: Session }) {
       description: `Are you sure you want to delete the session "${session.name}"? This action cannot be undone.`,
       confirmationButton: 'delete',
       onConfirm: async () => {
-        await deleteMutation.mutateAsync({})
+        await deleteMutation.mutateAsync(undefined)
       }
     })
   }

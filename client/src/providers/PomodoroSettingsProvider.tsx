@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
-import { WithQuery } from '@lifeforge/ui'
 import { createContext, useContext } from 'react'
-import type { InferOutput } from '@lifeforge/shared'
+
+import type { InferOutput } from '@lifeforge/api'
+import { WithQuery } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 

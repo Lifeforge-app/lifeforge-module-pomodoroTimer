@@ -10,7 +10,7 @@ function ControlButtons() {
       {!timer.isRunning ? (
         <Button
           icon="tabler:player-play"
-          namespace="apps.pomodoroTimer"
+          namespace="apps.pomodoro-timer"
           variant="primary"
           onClick={timer.start}
         >
@@ -19,7 +19,7 @@ function ControlButtons() {
       ) : (
         <Button
           icon="tabler:player-pause"
-          namespace="apps.pomodoroTimer"
+          namespace="apps.pomodoro-timer"
           variant="primary"
           onClick={timer.pause}
         >
@@ -29,7 +29,7 @@ function ControlButtons() {
       <Button
         disabled={timer.isRunning}
         icon="tabler:refresh"
-        namespace="apps.pomodoroTimer"
+        namespace="apps.pomodoro-timer"
         variant="secondary"
         onClick={timer.reset}
       >
@@ -39,7 +39,7 @@ function ControlButtons() {
         <Button
           disabled={timer.isRunning}
           icon="tabler:player-skip-forward"
-          namespace="apps.pomodoroTimer"
+          namespace="apps.pomodoro-timer"
           variant="secondary"
           onClick={timer.skip}
         >
