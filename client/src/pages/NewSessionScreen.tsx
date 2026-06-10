@@ -1,6 +1,6 @@
 import type { Session } from '@'
-import { useModuleTranslation } from '@lifeforge/localization'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import { Button, Icon } from '@lifeforge/ui'
 
 function NewSessionScreen({
@@ -22,7 +22,6 @@ function NewSessionScreen({
       <Button
         className="mt-6"
         icon="tabler:play"
-        namespace="apps.pomodoro-timer"
         onClick={() => {
           changeStatus('active')
         }}

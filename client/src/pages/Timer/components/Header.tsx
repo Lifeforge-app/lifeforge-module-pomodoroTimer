@@ -1,5 +1,4 @@
 import { useModuleTranslation } from '@lifeforge/localization'
-
 import {
   Button,
   ConfirmationModal,
@@ -53,7 +52,6 @@ function Header() {
         <Button
           disabled={timer.isRunning}
           icon="tabler:player-stop"
-          namespace="apps.pomodoro-timer"
           variant="secondary"
           onClick={handleStopSession}
         >
@@ -63,7 +61,6 @@ function Header() {
           <ContextMenuItem
             icon="tabler:settings"
             label="Settings"
-            namespace="apps.pomodoro-timer"
             onClick={() =>
               open(SettingsModal, {
                 initialData: settings

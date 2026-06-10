@@ -1,6 +1,6 @@
 import type { Session } from '@'
-import { useModuleTranslation } from '@lifeforge/localization'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import { Card, Icon } from '@lifeforge/ui'
 
 import { useSessionStyles } from '@/hooks/useSessionStyles'

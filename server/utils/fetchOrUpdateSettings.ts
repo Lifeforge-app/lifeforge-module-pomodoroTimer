@@ -1,14 +1,19 @@
 import fs from 'fs'
+import path from 'path'
 import z from 'zod'
 
 import pomodoroTimerSchemas from '../schema'
 
-const DEFAULT_SOUND_LOCATION =
-  '../apps/lifeforge--pomodoro-timer/server/assets/bell.opus'
+const DEFAULT_SOUND_LOCATION = path.resolve(__dirname, '../assets/bell.opus')
 
 const DEFAULT_SETTINGS: Omit<
   z.infer<typeof pomodoroTimerSchemas.settings>,
-  'created' | 'updated' | 'notification_sound'
+  | 'created'
+  | 'updated'
+  | 'notification_sound'
+  | 'id'
+  | 'collectionId'
+  | 'collectionName'
 > & {
   notification_sound: File
 } = {

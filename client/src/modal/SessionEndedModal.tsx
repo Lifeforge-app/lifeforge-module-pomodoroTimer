@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useMemo } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 import { AutoSizer } from 'react-virtualized'
 
 import { type InferOutput } from '@lifeforge/api'
+import { useModuleTranslation } from '@lifeforge/localization'
 import { Card, Icon, ModalHeader, Scrollbar, WithQuery } from '@lifeforge/ui'
 
 import { useSessionStyles } from '@/hooks/useSessionStyles'

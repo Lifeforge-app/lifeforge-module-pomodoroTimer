@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { useModuleTranslation } from '@lifeforge/localization'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Button,
   ContextMenuItem,
@@ -72,8 +72,7 @@ export default function SessionList() {
             <EmptyStateScreen
               icon="tabler:clock-off"
               message={{
-                id: 'session',
-                namespace: 'apps.pomodoro-timer'
+                id: 'session'
               }}
             />
           )
