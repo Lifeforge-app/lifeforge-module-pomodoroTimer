@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import {
   Button,
@@ -14,7 +14,7 @@ import { usePomodoro } from '@/providers/PomodoroProvider'
 import { usePomodoroSettings } from '@/providers/PomodoroSettingsProvider'
 
 function Header() {
-  const { t } = useTranslation('apps.pomodoro-timer')
+  const { t } = useModuleTranslation()
 
   const { open } = useModalStore()
 

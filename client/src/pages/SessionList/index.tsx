@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import {
   Button,
@@ -19,7 +19,7 @@ import { usePomodoroSettings } from '@/providers/PomodoroSettingsProvider'
 import SessionCard from './components/SessionCard'
 
 export default function SessionList() {
-  const { t } = useTranslation('apps.pomodoro-timer')
+  const { t } = useModuleTranslation()
 
   const { open } = useModalStore()
 

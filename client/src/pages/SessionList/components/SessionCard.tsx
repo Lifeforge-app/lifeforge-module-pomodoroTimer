@@ -1,7 +1,7 @@
 import type { Session } from '@'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { anyColorToHex } from '@lifeforge/ui'
 import {
@@ -25,7 +25,7 @@ import formatTime from '@/utils/formatTime'
 function SessionCard({ session }: { session: Session }) {
   const qc = useQueryClient()
 
-  const { t } = useTranslation('apps.pomodoro-timer')
+  const { t } = useModuleTranslation()
 
   const { open } = useModalStore()
 

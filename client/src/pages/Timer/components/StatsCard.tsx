@@ -1,5 +1,5 @@
 import type { Session } from '@'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { Card, Icon } from '@lifeforge/ui'
 
@@ -13,7 +13,7 @@ function StatsCard({
   session: Session
   breakTime?: number
 }) {
-  const { t } = useTranslation('apps.pomodoro-timer')
+  const { t } = useModuleTranslation()
 
   const sessionStyles = useSessionStyles()
 

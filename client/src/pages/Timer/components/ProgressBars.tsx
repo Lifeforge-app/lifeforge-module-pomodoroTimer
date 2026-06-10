@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { useSessionStyles } from '@/hooks/useSessionStyles'
 import { useCurrentSession } from '@/providers/CurrentSessionProvider'
@@ -13,7 +13,7 @@ function ProgressBars() {
 
   const progress = useProgress()
 
-  const { t } = useTranslation('apps.pomodoro-timer')
+  const { t } = useModuleTranslation()
 
   const sessionStyles = useSessionStyles()
 

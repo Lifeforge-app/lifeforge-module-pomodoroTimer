@@ -1,5 +1,5 @@
 import type { Session } from '@'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { Button, Icon } from '@lifeforge/ui'
 
@@ -10,7 +10,7 @@ function NewSessionScreen({
   session: Session
   changeStatus: (newStatus: Session['status']) => Promise<void>
 }) {
-  const { t } = useTranslation('apps.pomodoro-timer')
+  const { t } = useModuleTranslation()
 
   return (
     <div className="flex-center flex-1 flex-col">

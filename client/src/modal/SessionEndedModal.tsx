@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import _ from 'lodash'
 import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 import { AutoSizer } from 'react-virtualized'
 
 import { type InferOutput } from '@lifeforge/api'
@@ -29,7 +29,7 @@ function SessionEndedModal({
     sessionId: string
   }
 }) {
-  const { t } = useTranslation('apps.pomodoro-timer')
+  const { t } = useModuleTranslation()
 
   const sessionStyles = useSessionStyles()
 

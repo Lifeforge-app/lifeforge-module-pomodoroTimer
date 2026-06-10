@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { Icon } from '@lifeforge/ui'
 
@@ -12,7 +12,7 @@ function StatusSection() {
 
   const currentSession = useCurrentSession()
 
-  const { t } = useTranslation('apps.pomodoro-timer')
+  const { t } = useModuleTranslation()
 
   const sessionStyles = useSessionStyles()
 
