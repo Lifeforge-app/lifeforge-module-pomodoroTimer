@@ -14,9 +14,7 @@ const ActiveSessionContext = createContext<ActiveSessionContext | null>(null)
 
 function ActiveSessionProvider({ children }: { children: React.ReactNode }) {
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null)
-
   const [initialized, setInitialized] = useState(false)
-
   // Fetch sessions list to find any active session
   const sessionsQuery = useQuery(forgeAPI.sessions.list.queryOptions())
 

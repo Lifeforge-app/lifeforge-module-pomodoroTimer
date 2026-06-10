@@ -8,13 +8,9 @@ import useProgress from '../hooks/useProgress'
 
 function ProgressBars() {
   const currentSession = useCurrentSession()
-
   const timer = usePomodoro()
-
   const progress = useProgress()
-
   const { t } = useModuleTranslation()
-
   const sessionStyles = useSessionStyles()
 
   const currentPomodoroInCycle = currentSession

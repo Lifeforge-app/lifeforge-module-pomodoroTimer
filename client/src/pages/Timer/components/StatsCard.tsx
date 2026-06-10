@@ -14,7 +14,6 @@ function StatsCard({
   breakTime?: number
 }) {
   const { t } = useModuleTranslation()
-
   const sessionStyles = useSessionStyles()
 
   return (

@@ -15,11 +15,8 @@ import StatusSection from './components/StatusSection'
 
 export default function Timer() {
   const currentSession = useCurrentSession()
-
   const { setActiveSession } = useActiveSession()
-
   const { open } = useModalStore()
-
   const hasOpenedModalRef = useRef(false)
 
   // When session becomes completed, open modal and clear active session

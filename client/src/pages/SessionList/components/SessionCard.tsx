@@ -3,8 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { useModuleTranslation } from '@lifeforge/localization'
 
-import { anyColorToHex } from '@lifeforge/ui'
-import {
+import { anyColorToHex ,
   Card,
   ConfirmationModal,
   ContextMenu,
@@ -24,11 +23,8 @@ import formatTime from '@/utils/formatTime'
 
 function SessionCard({ session }: { session: Session }) {
   const qc = useQueryClient()
-
   const { t } = useModuleTranslation()
-
   const { open } = useModalStore()
-
   const { setActiveSession } = useActiveSession()
 
   const deleteMutation = useMutation(

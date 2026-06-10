@@ -28,9 +28,7 @@ const CurrentSessionContext = createContext<
 
 function CurrentSessionProvider({ children }: { children: React.ReactNode }) {
   const qc = useQueryClient()
-
   const { activeSessionId } = useActiveSession()
-
   const [initialized, setInitialized] = useState(false)
 
   // Reset state when activeSessionId changes

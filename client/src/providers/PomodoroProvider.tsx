@@ -44,7 +44,6 @@ const PomodoroContext = createContext<PomodoroContext | null>(null)
 
 function PomodoroProvider({ children }: { children: React.ReactNode }) {
   const settings = usePomodoroSettings()
-
   const settingsRef = useRef(settings)
 
   // Keep settingsRef up to date
@@ -101,7 +100,6 @@ function PomodoroProvider({ children }: { children: React.ReactNode }) {
   }, [currentSession])
 
   const [state, _setState] = useState<TimerState>(getInitialState)
-
   const stateRef = useRef(state)
 
   const setState = useCallback((newState: SetStateAction<TimerState>) => {

@@ -3,7 +3,6 @@ import { usePomodoro } from '@/providers/PomodoroProvider'
 
 function useProgress() {
   const timer = usePomodoro()
-
   const currentSession = useCurrentSession()
 
   const totalDuration = currentSession

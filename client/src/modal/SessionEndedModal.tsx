@@ -30,7 +30,6 @@ function SessionEndedModal({
   }
 }) {
   const { t } = useModuleTranslation()
-
   const sessionStyles = useSessionStyles()
 
   const sessionQuery = useQuery(

@@ -7,9 +7,7 @@ import useProgress from '../hooks/useProgress'
 
 function ProgressCircle() {
   const timer = usePomodoro()
-
   const progress = useProgress()
-
   const sessionStyles = useSessionStyles()
 
   return (

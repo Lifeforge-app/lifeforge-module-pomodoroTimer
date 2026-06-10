@@ -15,13 +15,9 @@ import { usePomodoroSettings } from '@/providers/PomodoroSettingsProvider'
 
 function Header() {
   const { t } = useModuleTranslation()
-
   const { open } = useModalStore()
-
   const timer = usePomodoro()
-
   const currentSession = useCurrentSession()
-
   const settings = usePomodoroSettings()
 
   function handleStopSession() {

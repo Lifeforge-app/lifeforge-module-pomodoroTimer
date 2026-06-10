@@ -9,11 +9,8 @@ import { usePomodoro } from '@/providers/PomodoroProvider'
 
 function StatusSection() {
   const timer = usePomodoro()
-
   const currentSession = useCurrentSession()
-
   const { t } = useModuleTranslation()
-
   const sessionStyles = useSessionStyles()
 
   const sessionsUntilLongBreak = currentSession

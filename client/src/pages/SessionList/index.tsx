@@ -20,11 +20,8 @@ import SessionCard from './components/SessionCard'
 
 export default function SessionList() {
   const { t } = useModuleTranslation()
-
   const { open } = useModalStore()
-
   const settings = usePomodoroSettings()
-
   const sessionsQuery = useQuery(forgeAPI.sessions.list.queryOptions())
 
   return (
