@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Button,
+  ContextMenu,
   ContextMenuItem,
   EmptyStateScreen,
   ModuleHeader,
@@ -27,24 +28,22 @@ export default function SessionList() {
   return (
     <>
       <ModuleHeader
-        actionButton={
-          <Button
-            icon="tabler:plus"
-            tProps={{
-              item: t('items.session')
-            }}
-            onClick={() => {
-              open(ModifySessionModal, {
-                openType: 'create'
-              })
-            }}
-          >
-            New
-          </Button>
-        }
-        contextMenuProps={{
-          children: (
-            <>
+        trailing={
+          <>
+            <Button
+              icon="tabler:plus"
+              tProps={{
+                item: t('items.session')
+              }}
+              onClick={() => {
+                open(ModifySessionModal, {
+                  openType: 'create'
+                })
+              }}
+            >
+              New
+            </Button>
+            <ContextMenu>
               <ContextMenuItem
                 icon="tabler:settings"
                 label={t('tabs.settings')}
@@ -54,9 +53,9 @@ export default function SessionList() {
                   })
                 }
               />
-            </>
-          )
-        }}
+            </ContextMenu>
+          </>
+        }
       />
       <WithQuery query={sessionsQuery}>
         {sessions =>
