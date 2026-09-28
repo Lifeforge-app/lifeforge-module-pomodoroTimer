@@ -1,9 +1,12 @@
 import { useModuleTranslation } from '@lifeforge/localization'
 import {
+  Box,
   Button,
   ConfirmationModal,
   ContextMenu,
   ContextMenuItem,
+  Flex,
+  Text,
   useModalStore
 } from '@lifeforge/ui'
 
@@ -38,17 +41,19 @@ function Header() {
   }
 
   return (
-    <header className="flex-between mt-2">
-      <div>
-        <h1 className="text-2xl font-medium">{currentSession.session.name}</h1>
-        <p className="text-bg-500 text-sm">
+    <Flex as="header" justify="between" mt="sm">
+      <Box>
+        <Text as="h1" size="2xl" weight="medium">
+          {currentSession.session.name}
+        </Text>
+        <Text as="p" color="muted" size="sm">
           {t('timer.sessionConfig', {
             durations: `${currentSession.session.work_duration} / ${currentSession.session.short_break_duration} / ${currentSession.session.long_break_duration}`,
             perCycle: currentSession.session.session_until_long_break
           })}
-        </p>
-      </div>
-      <div className="flex items-center gap-4">
+        </Text>
+      </Box>
+      <Flex align="center" gap="md">
         <Button
           disabled={timer.isRunning}
           icon="tabler:player-stop"
@@ -68,8 +73,8 @@ function Header() {
             }
           />
         </ContextMenu>
-      </div>
-    </header>
+      </Flex>
+    </Flex>
   )
 }
 

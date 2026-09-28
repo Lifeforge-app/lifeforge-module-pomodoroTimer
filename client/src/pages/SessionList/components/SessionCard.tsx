@@ -1,17 +1,19 @@
 import type { Session } from '@'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 
+import { useForgeMutation } from '@lifeforge/api'
 import { useModuleTranslation } from '@lifeforge/localization'
 import {
+  Box,
   Card,
   ConfirmationModal,
   ContextMenu,
   ContextMenuItem,
+  Flex,
   Icon,
   TagChip,
+  Text,
   anyColorToHex,
-  toast,
   useModalStore
 } from '@lifeforge/ui'
 
@@ -23,27 +25,16 @@ import { useActiveSession } from '@/providers/ActiveSessionProvider'
 import formatTime from '@/utils/formatTime'
 
 function SessionCard({ session }: { session: Session }) {
-  const qc = useQueryClient()
   const { t } = useModuleTranslation()
   const { open } = useModalStore()
   const { setActiveSession } = useActiveSession()
 
-  const deleteMutation = useMutation(
-    forgeAPI.sessions.remove
-      .input({
-        id: session.id
-      })
-      .mutationOptions({
-        onSuccess: () => {
-          qc.invalidateQueries({
-            queryKey: forgeAPI.sessions.list.key
-          })
-        },
-        onError: (error: Error) => {
-          console.error('Error deleting session:', error)
-          toast.error('An error occurred while deleting the session.')
-        }
-      })
+  const deleteMutation = useForgeMutation(
+    forgeAPI.sessions.remove.input({ id: session.id }),
+    {
+      action: 'delete',
+      queryKey: forgeAPI.sessions.list.key
+    }
   )
 
   function handleDelete() {
@@ -71,63 +62,81 @@ function SessionCard({ session }: { session: Session }) {
     <Card
       key={session.id}
       isInteractive
-      className="flex-between gap-8"
+      direction="row"
+      gap="xl"
+      justify="between"
       onClick={handleClick}
     >
-      <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-        <div
-          className="rounded-lg p-3"
+      <Flex
+        align={{ base: 'start', sm: 'center' }}
+        direction={{ base: 'column', sm: 'row' }}
+        gap="md"
+      >
+        <Box
+          p="sm"
+          r="lg"
           style={{
             color: STATUS_STYLES[session.status].color,
             backgroundColor:
               anyColorToHex(STATUS_STYLES[session.status].color) + '20'
           }}
         >
-          <Icon className="size-7" icon={STATUS_STYLES[session.status].icon} />
-        </div>
-        <div>
-          <h3 className="flex items-center gap-2 text-lg font-medium">
-            {session.name}
+          <Icon icon={STATUS_STYLES[session.status].icon} size="1.75rem" />
+        </Box>
+        <Box>
+          <Flex align="center" as="h3" gap="sm">
+            <Text size="lg" weight="medium">
+              {session.name}
+            </Text>
             <TagChip
-              className="hidden px-1.5! py-0.5! text-xs! sm:flex"
               color={STATUS_STYLES[session.status].color}
+              display={{ base: 'none', sm: 'block' }}
               icon={STATUS_STYLES[session.status].icon}
-              iconClassName="size-3.5!"
               label={t(`statuses.${session.status}`)}
+              size="sm"
+              style={{ padding: '0.125rem 0.375rem' }}
             />
-          </h3>
-          <div className="text-bg-500 mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm sm:mt-1">
-            <div className="text-bg-500 flex items-center gap-1.5">
-              <Icon className="size-4 shrink-0" icon="tabler:clock" />
-              <span>
+          </Flex>
+          <Flex
+            align="center"
+            gapX="md"
+            gapY="sm"
+            mt={{ base: 'sm', sm: 'xs' }}
+            wrap="wrap"
+          >
+            <Flex align="center" gap="xs">
+              <Icon color="muted" icon="tabler:clock" size="1rem" />
+              <Text color="muted" size="sm">
                 {t('timer.sessionConfig', {
                   durations: `${session.work_duration} / ${session.short_break_duration} / ${session.long_break_duration}`,
                   perCycle: session.session_until_long_break
                 })}
-              </span>
-            </div>
+              </Text>
+            </Flex>
             {session.status !== 'new' && (
-              <div className="text-bg-500 flex items-center gap-1.5">
-                <Icon className="size-4 shrink-0" icon="tabler:flag-check" />
-                <span>
+              <Flex align="center" gap="xs">
+                <Icon color="muted" icon="tabler:flag-check" size="1rem" />
+                <Text color="muted" size="sm">
                   {t('timer.pomodoroDone', {
                     count: session.pomodoro_count,
-                    total: formatTime(session.total_time_elapsed)
+                    total: formatTime(session.total_time_elapsed as number)
                   })}
-                </span>
-              </div>
+                </Text>
+              </Flex>
             )}
-            <div className="text-bg-500 flex items-center gap-1.5">
-              <Icon className="size-4 shrink-0" icon="tabler:calendar" />
-              <span>{dayjs(session.created).format('DD MMM YYYY')}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+            <Flex align="center" gap="xs">
+              <Icon color="muted" icon="tabler:calendar" size="1rem" />
+              <Text color="muted" size="sm">
+                {dayjs(session.created).format('DD MMM YYYY')}
+              </Text>
+            </Flex>
+          </Flex>
+        </Box>
+      </Flex>
       <ContextMenu
-        classNames={{
-          wrapper: 'top-4 right-4 sm:static absolute'
-        }}
+        position={{ base: 'absolute', sm: 'static' }}
+        right="1rem"
+        top="1rem"
       >
         <ContextMenuItem
           icon="tabler:pencil"

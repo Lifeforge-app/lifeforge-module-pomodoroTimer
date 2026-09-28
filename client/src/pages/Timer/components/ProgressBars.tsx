@@ -1,4 +1,5 @@
 import { useModuleTranslation } from '@lifeforge/localization'
+import { Box, Flex, Text } from '@lifeforge/ui'
 
 import { useSessionStyles } from '@/hooks/useSessionStyles'
 import { useCurrentSession } from '@/providers/CurrentSessionProvider'
@@ -23,7 +24,7 @@ function ProgressBars() {
 
   return (
     <>
-      <div className="flex w-full max-w-md items-center gap-1">
+      <Flex align="center" gap="xs" maxWidth="28rem" width="100%">
         {Array.from({
           length: currentSession.session.session_until_long_break * 2
         }).map((_, i) => {
@@ -45,18 +46,28 @@ function ProgressBars() {
             const segmentProgress = isCurrent ? progress : 0
 
             return (
-              <div
+              <Box
                 key={i}
-                className="bg-bg-200 dark:bg-bg-800 relative h-2 flex-[2] overflow-hidden rounded-full first:rounded-l-full"
+                bg={{ base: 'bg-200', dark: 'bg-800' }}
+                flex="2"
+                height="0.5rem"
+                overflow="hidden"
+                position="relative"
+                r="full"
               >
-                <div
-                  className="absolute inset-y-0 left-0 rounded-full transition-all duration-300"
+                <Box
+                  bottom="0"
+                  left="0"
+                  position="absolute"
+                  r="full"
                   style={{
                     width: isCompleted ? '100%' : `${segmentProgress}%`,
-                    backgroundColor: sessionStyles.work.color
+                    backgroundColor: sessionStyles.work.color,
+                    transition: 'all 300ms'
                   }}
+                  top="0"
                 />
-              </div>
+              </Box>
             )
           }
 
@@ -82,22 +93,32 @@ function ProgressBars() {
           const segmentProgress = isRestCurrent ? progress : 0
 
           return (
-            <div
+            <Box
               key={i}
-              className="bg-bg-200 dark:bg-bg-800 relative h-2 flex-1 overflow-hidden rounded-full last:rounded-r-full"
+              bg={{ base: 'bg-200', dark: 'bg-800' }}
+              flex="1"
+              height="0.5rem"
+              overflow="hidden"
+              position="relative"
+              r="full"
             >
-              <div
-                className="absolute inset-y-0 left-0 rounded-full transition-all duration-300"
+              <Box
+                bottom="0"
+                left="0"
+                position="absolute"
+                r="full"
                 style={{
                   width: isRestCompleted ? '100%' : `${segmentProgress}%`,
-                  backgroundColor: sessionStyles[breakType].color
+                  backgroundColor: sessionStyles[breakType].color,
+                  transition: 'all 300ms'
                 }}
+                top="0"
               />
-            </div>
+            </Box>
           )
         })}
-      </div>
-      <span className="text-bg-500">
+      </Flex>
+      <Text color="muted">
         {timer.subSessionType === 'work'
           ? t('timer.pomodoroCount', {
               current:
@@ -106,7 +127,7 @@ function ProgressBars() {
               total: currentSession.session.session_until_long_break
             })
           : t('timer.breakingTime')}
-      </span>
+      </Text>
     </>
   )
 }

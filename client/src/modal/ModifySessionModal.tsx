@@ -1,12 +1,27 @@
 import type { Session } from '@'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
+import { useForm } from 'react-hook-form'
+import z from 'zod'
 
-import type { InferInput } from '@lifeforge/api'
-import { FormModal, defineForm, toast } from '@lifeforge/ui'
+import { useForgeMutation } from '@lifeforge/api'
+import {
+  FormModal,
+  SliderField,
+  TextField,
+  createDefaultValues
+} from '@lifeforge/ui'
 
 import DEFAULT_OPTIONS from '@/constants/default_durations'
 import { forgeAPI } from '@/manifest'
+
+const schema = z.object({
+  name: z.string().min(1, 'Required'),
+  work_duration: z.number().min(1).max(120),
+  short_break_duration: z.number().min(1).max(60),
+  long_break_duration: z.number().min(1).max(120),
+  session_until_long_break: z.number().min(1).max(10)
+})
 
 function ModifySessionModal({
   onClose,
@@ -18,103 +33,102 @@ function ModifySessionModal({
     initialData?: Session
   }
 }) {
-  const qc = useQueryClient()
+  const createMutation = useForgeMutation(forgeAPI.sessions.create, {
+    action: 'create',
+    queryKey: forgeAPI.sessions.list.key
+  })
 
-  const mutation = useMutation(
-    (openType === 'create'
-      ? forgeAPI.sessions.create
-      : forgeAPI.sessions.update.input({
-          id: initialData?.id || ''
-        })
-    ).mutationOptions({
-      onSuccess: () => {
-        qc.invalidateQueries({
-          queryKey: forgeAPI.sessions.list.key
-        })
-      },
-      onError: error => {
-        console.error('Error submitting form:', error)
-        toast.error('An error occurred while submitting the form.')
-      }
-    })
+  const updateMutation = useForgeMutation(
+    forgeAPI.sessions.update.input({ id: initialData?.id || '' }),
+    {
+      action: 'update',
+      queryKey: forgeAPI.sessions.list.key
+    }
   )
 
-  const { formProps } = defineForm<
-    InferInput<(typeof forgeAPI.sessions)[typeof openType]>['body']
-  >({
-    icon: openType === 'create' ? 'tabler:plus' : 'tabler:pencil',
-    title: `session.${openType}`,
-    submitButton: openType,
-    onClose,
-    namespace: 'apps.pomodoro-timer'
-  })
-    .typesMap({
-      name: 'text',
-      work_duration: 'slider',
-      short_break_duration: 'slider',
-      long_break_duration: 'slider',
-      session_until_long_break: 'slider'
-    })
-    .setupFields({
-      name: {
-        label: 'Session Name',
-        icon: 'tabler:tag',
-        placeholder: 'My Productive Session',
-        required: true
-      },
-      work_duration: {
-        icon: 'tabler:flame',
-        label: 'Work Duration',
-        required: true,
-        min: 1,
-        max: 120,
-        placeholder: '25',
-        hidden: openType === 'update'
-      },
-      short_break_duration: {
-        icon: 'tabler:coffee',
-        label: 'Short Break Duration',
-        required: true,
-        min: 1,
-        max: 60,
-        placeholder: '5',
-        hidden: openType === 'update'
-      },
-      long_break_duration: {
-        icon: 'tabler:beach',
-        label: 'Long Break Duration',
-        required: true,
-        min: 1,
-        max: 120,
-        placeholder: '15',
-        hidden: openType === 'update'
-      },
-      session_until_long_break: {
-        icon: 'tabler:rotate-clockwise-2',
-        label: 'Sessions Until Long Break',
-        required: true,
-        min: 1,
-        max: 10,
-        placeholder: '4',
-        hidden: openType === 'update'
-      }
-    })
-    .autoFocusField('name')
-    .initialData(
-      initialData || {
+  const form = useForm({
+    defaultValues: {
+      ...createDefaultValues(schema),
+      ...(initialData ?? {
         name: `Productive Session on ${dayjs().format('MMM D')}`,
         work_duration: DEFAULT_OPTIONS.work,
         short_break_duration: DEFAULT_OPTIONS.short_break,
         long_break_duration: DEFAULT_OPTIONS.long_break,
         session_until_long_break: DEFAULT_OPTIONS.session_until_long_break
-      }
-    )
-    .onSubmit(async values => {
-      await mutation.mutateAsync(values)
-    })
-    .build()
+      })
+    },
+    resolver: zodResolver(schema)
+  })
 
-  return <FormModal {...formProps} />
+  return (
+    <FormModal
+      form={form}
+      submissionConfig={{
+        template: openType,
+        handler: async data => {
+          await (
+            openType === 'create' ? createMutation : updateMutation
+          ).mutateAsync(data)
+        }
+      }}
+      uiConfig={{
+        icon: openType === 'create' ? 'tabler:plus' : 'tabler:pencil',
+        namespace: 'apps.pomodoro-timer',
+        title: `session.${openType}`,
+        onClose
+      }}
+    >
+      <TextField
+        autoFocus
+        required
+        control={form.control}
+        icon="tabler:tag"
+        label="Session Name"
+        name="name"
+        placeholder="My Productive Session"
+      />
+      {openType === 'create' && (
+        <>
+          <SliderField
+            required
+            control={form.control}
+            icon="tabler:flame"
+            label="Work Duration"
+            max={120}
+            min={1}
+            name="work_duration"
+          />
+          <SliderField
+            required
+            control={form.control}
+            icon="tabler:coffee"
+            label="Short Break Duration"
+            max={60}
+            min={1}
+            name="short_break_duration"
+          />
+          <SliderField
+            required
+            control={form.control}
+            icon="tabler:beach"
+            label="Long Break Duration"
+            max={120}
+            min={1}
+            name="long_break_duration"
+          />
+          <SliderField
+            required
+            control={form.control}
+            icon="tabler:rotate-clockwise-2"
+            label="Sessions Until Long Break"
+            max={10}
+            min={1}
+            name="session_until_long_break"
+          />
+        </>
+      )}
+    </FormModal>
+  )
 }
 
 export default ModifySessionModal

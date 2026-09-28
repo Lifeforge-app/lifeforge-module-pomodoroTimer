@@ -1,4 +1,4 @@
-import { Button } from '@lifeforge/ui'
+import { Button, Flex } from '@lifeforge/ui'
 
 import { usePomodoro } from '@/providers/PomodoroProvider'
 
@@ -6,7 +6,7 @@ function ControlButtons() {
   const timer = usePomodoro()
 
   return (
-    <div className="mt-6 flex items-center gap-3">
+    <Flex align="center" gap="sm" mt="lg">
       {!timer.isRunning ? (
         <Button
           icon="tabler:player-play"
@@ -42,7 +42,7 @@ function ControlButtons() {
           skip
         </Button>
       )}
-    </div>
+    </Flex>
   )
 }
 

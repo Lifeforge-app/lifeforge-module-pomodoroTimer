@@ -1,7 +1,7 @@
 import type { Session } from '@'
 
 import { useModuleTranslation } from '@lifeforge/localization'
-import { Button, Icon } from '@lifeforge/ui'
+import { Button, Flex, Icon, Text } from '@lifeforge/ui'
 
 function NewSessionScreen({
   session,
@@ -13,22 +13,24 @@ function NewSessionScreen({
   const { t } = useModuleTranslation()
 
   return (
-    <div className="flex-center flex-1 flex-col">
-      <Icon className="text-bg-500 size-24" icon="tabler:clock-bolt" />
-      <h2 className="mt-12 mb-4 text-3xl font-medium">
+    <Flex centered direction="column" flex="1">
+      <Icon color="muted" icon="tabler:clock-bolt" size="6rem" />
+      <Text as="h2" mb="md" mt="2xl" size="3xl" weight="medium">
         {session.name || 'New Session'}
-      </h2>
-      <p className="text-bg-500 mb-6">{t('timer.readyPrompt')}</p>
+      </Text>
+      <Text as="p" color="muted" mb="lg">
+        {t('timer.readyPrompt')}
+      </Text>
       <Button
-        className="mt-6"
         icon="tabler:play"
+        mt="lg"
         onClick={() => {
           changeStatus('active')
         }}
       >
         Start Pomodoro
       </Button>
-    </div>
+    </Flex>
   )
 }
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-import { useModalStore } from '@lifeforge/ui'
+import { Flex, useModalStore } from '@lifeforge/ui'
 
 import SessionEndedModal from '@/modal/SessionEndedModal'
 import { useActiveSession } from '@/providers/ActiveSessionProvider'
@@ -64,12 +64,12 @@ export default function Timer() {
   return (
     <>
       <Header />
-      <div className="flex-center flex-1 flex-col gap-6 p-8">
+      <Flex centered direction="column" flex="1" gap="lg" p="xl">
         <StatusSection />
         <ProgressCircle />
         <ProgressBars />
         <ControlButtons />
-      </div>
+      </Flex>
     </>
   )
 }

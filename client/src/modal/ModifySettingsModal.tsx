@@ -1,14 +1,30 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import z from 'zod'
 
-import { type InferInput } from '@lifeforge/api'
+import { useForgeMutation } from '@lifeforge/api'
 import {
+  CheckboxField,
+  ColorField,
+  FileField,
   FormModal,
-  defineForm,
+  convertFormFileFieldData,
+  createDefaultValues,
+  fileValueSchema,
   getFormFileFieldInitialData
 } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 import { type PomodoroSettings } from '@/providers/PomodoroSettingsProvider'
+
+const schema = z.object({
+  work_color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color'),
+  short_break_color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color'),
+  long_break_color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color'),
+  auto_start_break: z.boolean(),
+  auto_start_work: z.boolean(),
+  notification_sound: fileValueSchema
+})
 
 export default function SettingsModal({
   onClose,
@@ -19,78 +35,83 @@ export default function SettingsModal({
     initialData: PomodoroSettings
   }
 }) {
-  const queryClient = useQueryClient()
-
-  const mutation = useMutation(
-    forgeAPI.settings.update.mutationOptions({
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: forgeAPI.settings.get.key
-        })
-        onClose()
-      }
-    })
-  )
-
-  const { formProps } = defineForm<
-    InferInput<typeof forgeAPI.settings.update>['body']
-  >({
-    title: 'Settings',
-    namespace: 'apps.pomodoro-timer',
-    icon: 'tabler:settings',
-    onClose,
-    submitButton: 'update'
+  const updateMutation = useForgeMutation(forgeAPI.settings.update, {
+    action: 'update',
+    queryKey: forgeAPI.settings.get.key,
+    onSuccess: () => onClose()
   })
-    .typesMap({
-      work_color: 'color',
-      short_break_color: 'color',
-      long_break_color: 'color',
-      auto_start_break: 'checkbox',
-      auto_start_work: 'checkbox',
-      notification_sound: 'file'
-    })
-    .setupFields({
-      work_color: {
-        label: 'workColor',
-        icon: 'tabler:flame'
-      },
-      short_break_color: {
-        label: 'shortBreakColor',
-        icon: 'tabler:coffee'
-      },
-      long_break_color: {
-        label: 'longBreakColor',
-        icon: 'tabler:beach'
-      },
-      auto_start_break: {
-        label: 'autoStartBreaks',
-        icon: 'tabler:player-stop'
-      },
-      auto_start_work: {
-        label: 'autoStartWork',
-        icon: 'tabler:player-skip-forward'
-      },
-      notification_sound: {
-        label: 'notificationSound',
-        icon: 'tabler:bell',
-        optional: true,
-        acceptedMimeTypes: {
-          audio: ['mpeg', 'mp3', 'wav', 'ogg', 'webm']
-        }
-      }
-    })
-    .initialData({
+
+  const form = useForm({
+    defaultValues: {
+      ...createDefaultValues(schema),
       ...initialData,
       notification_sound: getFormFileFieldInitialData(
         forgeAPI,
         initialData,
         initialData.notification_sound
       )
-    })
-    .onSubmit(async data => {
-      await mutation.mutateAsync(data)
-    })
-    .build()
+    },
+    resolver: zodResolver(schema)
+  })
 
-  return <FormModal {...formProps} />
+  return (
+    <FormModal
+      form={form}
+      submissionConfig={{
+        template: 'update',
+        handler: async formData => {
+          await updateMutation.mutateAsync({
+            ...formData,
+            notification_sound: convertFormFileFieldData(
+              formData.notification_sound
+            )
+          })
+        }
+      }}
+      uiConfig={{
+        icon: 'tabler:settings',
+        namespace: 'apps.pomodoro-timer',
+        title: 'Settings',
+        onClose
+      }}
+    >
+      <ColorField
+        control={form.control}
+        icon="tabler:flame"
+        label="workColor"
+        name="work_color"
+      />
+      <ColorField
+        control={form.control}
+        icon="tabler:coffee"
+        label="shortBreakColor"
+        name="short_break_color"
+      />
+      <ColorField
+        control={form.control}
+        icon="tabler:beach"
+        label="longBreakColor"
+        name="long_break_color"
+      />
+      <CheckboxField
+        control={form.control}
+        icon="tabler:player-stop"
+        label="autoStartBreaks"
+        name="auto_start_break"
+      />
+      <CheckboxField
+        control={form.control}
+        icon="tabler:player-skip-forward"
+        label="autoStartWork"
+        name="auto_start_work"
+      />
+      <FileField
+        control={form.control}
+        icon="tabler:bell"
+        label="notificationSound"
+        mimeTypes={{ audio: ['mpeg', 'mp3', 'wav', 'ogg', 'webm'] }}
+        name="notification_sound"
+      />
+    </FormModal>
+  )
 }

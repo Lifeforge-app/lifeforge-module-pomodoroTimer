@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import { useModuleTranslation } from '@lifeforge/localization'
-import { Icon } from '@lifeforge/ui'
+import { Box, Flex, Icon, Text } from '@lifeforge/ui'
 
 import { useSessionStyles } from '@/hooks/useSessionStyles'
 import { useCurrentSession } from '@/providers/CurrentSessionProvider'
@@ -30,7 +30,7 @@ function StatusSection() {
 
   return (
     <>
-      <p className="text-lg font-medium">
+      <Text as="p" size="lg" weight="medium">
         {t('timer.cycleCount', {
           current:
             Math.floor(
@@ -39,34 +39,42 @@ function StatusSection() {
                 sessionsUntilLongBreak
             ) + 1
         })}
-      </p>
-      <div
-        className="flex items-center gap-3 rounded-full py-2 pr-5 pl-2"
+      </Text>
+      <Flex
+        align="center"
+        gap="sm"
+        pl="sm"
+        pr="lg"
+        py="sm"
+        r="full"
         style={{
           backgroundColor: sessionStyles[timer.subSessionType].color + '15',
           border: `1px solid ${sessionStyles[timer.subSessionType].color}40`
         }}
       >
-        <div
-          className="rounded-full p-1.5"
+        <Box
+          p="xs"
+          r="full"
           style={{
             backgroundColor: sessionStyles[timer.subSessionType].color + '30'
           }}
         >
           <Icon
-            className="size-5"
             icon={sessionStyles[timer.subSessionType].icon}
             style={{ color: sessionStyles[timer.subSessionType].color }}
           />
-        </div>
-        <span
-          className="text-lg font-semibold"
+        </Box>
+        <Text
+          size="lg"
           style={{ color: sessionStyles[timer.subSessionType].color }}
+          weight="semibold"
         >
           {t(`timer.${_.camelCase(timer.subSessionType)}`)}
-        </span>
-      </div>
-      <p className="text-bg-500">{getMessage()}</p>
+        </Text>
+      </Flex>
+      <Text as="p" color="muted">
+        {getMessage()}
+      </Text>
     </>
   )
 }

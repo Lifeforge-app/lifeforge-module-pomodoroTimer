@@ -6,8 +6,10 @@ import {
   ContextMenu,
   ContextMenuItem,
   EmptyStateScreen,
+  FAB,
   ModuleHeader,
   Scrollbar,
+  Stack,
   WithQuery,
   useModalStore
 } from '@lifeforge/ui'
@@ -31,6 +33,7 @@ export default function SessionList() {
         trailing={
           <>
             <Button
+              display={{ base: 'none', md: 'flex' }}
               icon="tabler:plus"
               tProps={{
                 item: t('items.session')
@@ -46,7 +49,7 @@ export default function SessionList() {
             <ContextMenu>
               <ContextMenuItem
                 icon="tabler:settings"
-                label={t('tabs.settings')}
+                label={t('modals.settings')}
                 onClick={() =>
                   open(SettingsModal, {
                     initialData: settings
@@ -61,11 +64,11 @@ export default function SessionList() {
         {sessions =>
           sessions.length ? (
             <Scrollbar>
-              <div className="space-y-3">
+              <Stack>
                 {sessions.map(session => (
                   <SessionCard key={session.id} session={session} />
                 ))}
-              </div>
+              </Stack>
             </Scrollbar>
           ) : (
             <EmptyStateScreen
@@ -77,6 +80,14 @@ export default function SessionList() {
           )
         }
       </WithQuery>
+      <FAB
+        visibilityBreakpoint="md"
+        onClick={() => {
+          open(ModifySessionModal, {
+            openType: 'create'
+          })
+        }}
+      />
     </>
   )
 }

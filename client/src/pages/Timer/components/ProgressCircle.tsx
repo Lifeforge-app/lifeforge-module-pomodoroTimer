@@ -1,9 +1,12 @@
 import dayjs from 'dayjs'
 
+import { Box, Flex, Text } from '@lifeforge/ui'
+
 import { useSessionStyles } from '@/hooks/useSessionStyles'
 import { usePomodoro } from '@/providers/PomodoroProvider'
 
 import useProgress from '../hooks/useProgress'
+import * as styles from './ProgressCircle.css'
 
 function ProgressCircle() {
   const timer = usePomodoro()
@@ -11,11 +14,11 @@ function ProgressCircle() {
   const sessionStyles = useSessionStyles()
 
   return (
-    <div className="relative">
-      <svg className="relative size-96 -rotate-90" viewBox="0 0 200 200">
+    <Box position="relative">
+      <svg className={styles.svg} viewBox="0 0 200 200">
         {/* Background circle */}
         <circle
-          className="text-bg-200 dark:text-bg-800"
+          className={styles.backgroundCircle}
           cx="100"
           cy="100"
           fill="none"
@@ -25,7 +28,7 @@ function ProgressCircle() {
         />
         {/* Progress circle */}
         <circle
-          className="transition-all duration-300"
+          className={styles.progressCircle}
           cx="100"
           cy="100"
           fill="none"
@@ -36,19 +39,26 @@ function ProgressCircle() {
           strokeWidth="10"
         />
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div
-          className="text-6xl font-semibold"
+      <Flex
+        align="center"
+        direction="column"
+        inset="0"
+        justify="center"
+        position="absolute"
+      >
+        <Text
+          size="6xl"
           style={{
             color: timer.isRunning
               ? sessionStyles[timer.subSessionType].color
               : undefined
           }}
+          weight="semibold"
         >
           {dayjs.duration(timer.timeLeft, 'seconds').format('mm:ss')}
-        </div>
-      </div>
-    </div>
+        </Text>
+      </Flex>
+    </Box>
   )
 }
 
