@@ -9,9 +9,9 @@ function useProgress() {
     ? currentSession.session[
         (
           {
-            work: 'work_duration',
-            short_break: 'short_break_duration',
-            long_break: 'long_break_duration'
+            work: 'workDuration',
+            short_break: 'shortBreakDuration',
+            long_break: 'longBreakDuration'
           } as const
         )[timer.subSessionType]
       ] * 60

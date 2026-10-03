@@ -23,18 +23,18 @@ export function useSessionStyles(): SessionStyles {
     () => ({
       work: {
         icon: SESSION_ICONS.work,
-        color: settings.work_color
+        color: settings.workColor
       },
       short_break: {
         icon: SESSION_ICONS.short_break,
-        color: settings.short_break_color
+        color: settings.shortBreakColor
       },
       long_break: {
         icon: SESSION_ICONS.long_break,
-        color: settings.long_break_color
+        color: settings.longBreakColor
       }
     }),
-    [settings.work_color, settings.short_break_color, settings.long_break_color]
+    [settings.workColor, settings.shortBreakColor, settings.longBreakColor]
   )
 }
 

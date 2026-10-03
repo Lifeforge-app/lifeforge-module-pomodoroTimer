@@ -108,8 +108,8 @@ function SessionCard({ session }: { session: Session }) {
               <Icon color="muted" icon="tabler:clock" size="1rem" />
               <Text color="muted" size="sm">
                 {t('timer.sessionConfig', {
-                  durations: `${session.work_duration} / ${session.short_break_duration} / ${session.long_break_duration}`,
-                  perCycle: session.session_until_long_break
+                  durations: `${session.workDuration} / ${session.shortBreakDuration} / ${session.longBreakDuration}`,
+                  perCycle: session.sessionUntilLongBreak
                 })}
               </Text>
             </Flex>
@@ -118,8 +118,8 @@ function SessionCard({ session }: { session: Session }) {
                 <Icon color="muted" icon="tabler:flag-check" size="1rem" />
                 <Text color="muted" size="sm">
                   {t('timer.pomodoroDone', {
-                    count: session.pomodoro_count,
-                    total: formatTime(session.total_time_elapsed as number)
+                    count: session.pomodoroCount,
+                    total: formatTime(session.totalTimeElapsed as number)
                   })}
                 </Text>
               </Flex>

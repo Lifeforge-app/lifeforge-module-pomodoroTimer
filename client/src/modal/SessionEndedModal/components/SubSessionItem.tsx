@@ -47,7 +47,7 @@ function SubSessionItem({
           {t(`timer.${_.camelCase(subSession.type)}`)}
         </Text>
         <Text as="p">
-          <Text weight="medium">{formatTime(subSession.duration_elapsed)}</Text>
+          <Text weight="medium">{formatTime(subSession.durationElapsed)}</Text>
           <Text color="muted" size="sm">
             {' '}
             /{' '}
@@ -55,9 +55,9 @@ function SubSessionItem({
               session[
                 (
                   {
-                    work: 'work_duration',
-                    short_break: 'short_break_duration',
-                    long_break: 'long_break_duration'
+                    work: 'workDuration',
+                    short_break: 'shortBreakDuration',
+                    long_break: 'longBreakDuration'
                   } as const
                 )[subSession.type]
               ] * 60
@@ -65,7 +65,7 @@ function SubSessionItem({
           </Text>
         </Text>
       </Flex>
-      {subSession.is_completed ? (
+      {subSession.isCompleted ? (
         <Icon color="green-500" icon="tabler:check" size="1rem" />
       ) : (
         <Icon color="bg-400" icon="tabler:skip-forward" size="1rem" />

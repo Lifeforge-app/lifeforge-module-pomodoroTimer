@@ -70,7 +70,7 @@ function SessionEndedModal({
 
     return subSessionsQuery.data
       .filter(s => s.type !== 'work')
-      .reduce((sum, s) => sum + s.duration_elapsed, 0)
+      .reduce((sum, s) => sum + s.durationElapsed, 0)
   }, [subSessionsQuery.data])
 
   return (
@@ -85,8 +85,8 @@ function SessionEndedModal({
                   <Box>{session.name}</Box>
                   <Text as="p" color="muted" mt="xs" size="sm">
                     {t('timer.sessionConfig', {
-                      durations: `${session.work_duration} / ${session.short_break_duration} / ${session.long_break_duration}`,
-                      perCycle: session.session_until_long_break
+                      durations: `${session.workDuration} / ${session.shortBreakDuration} / ${session.longBreakDuration}`,
+                      perCycle: session.sessionUntilLongBreak
                     })}
                   </Text>
                 </Box>

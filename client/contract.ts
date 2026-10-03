@@ -13,52 +13,107 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
-            "auto_start_break": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "autoStartBreak": {
               "type": "boolean"
             },
-            "auto_start_work": {
+            "autoStartWork": {
               "type": "boolean"
             },
-            "notification_sound": {
-              "type": "string"
+            "workColor": {
+              "type": "string",
+              "maxLength": 255
             },
-            "work_color": {
-              "type": "string"
+            "shortBreakColor": {
+              "type": "string",
+              "maxLength": 255
             },
-            "short_break_color": {
-              "type": "string"
-            },
-            "long_break_color": {
-              "type": "string"
+            "longBreakColor": {
+              "type": "string",
+              "maxLength": 255
             },
             "created": {
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             },
             "updated": {
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
+            "notificationSound": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "originalName": {
+                      "type": "string"
+                    },
+                    "mimeType": {
+                      "type": "string"
+                    },
+                    "size": {
+                      "type": "number"
+                    },
+                    "thumbs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "size": {
+                            "type": "string"
+                          },
+                          "key": {
+                            "type": "string"
+                          },
+                          "width": {
+                            "type": "number"
+                          },
+                          "height": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "size",
+                          "key",
+                          "width",
+                          "height"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "originalName",
+                    "mimeType",
+                    "size",
+                    "thumbs"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           },
           "required": [
-            "auto_start_break",
-            "auto_start_work",
-            "notification_sound",
-            "work_color",
-            "short_break_color",
-            "long_break_color",
+            "id",
+            "autoStartBreak",
+            "autoStartWork",
+            "workColor",
+            "shortBreakColor",
+            "longBreakColor",
             "created",
             "updated",
-            "id",
-            "collectionId",
-            "collectionName"
+            "notificationSound"
           ],
           "additionalProperties": false
         }
@@ -71,7 +126,7 @@ export const contract = {
       "encrypted": true,
       "isDownloadable": false,
       "media": {
-        "notification_sound": {
+        "notificationSound": {
           "optional": true
         }
       },
@@ -80,19 +135,19 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
-            "auto_start_break": {
+            "autoStartBreak": {
               "type": "boolean"
             },
-            "auto_start_work": {
+            "autoStartWork": {
               "type": "boolean"
             },
-            "work_color": {
+            "workColor": {
               "type": "string"
             },
-            "short_break_color": {
+            "shortBreakColor": {
               "type": "string"
             },
-            "long_break_color": {
+            "longBreakColor": {
               "type": "string"
             }
           },
@@ -104,52 +159,107 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
-            "auto_start_break": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "autoStartBreak": {
               "type": "boolean"
             },
-            "auto_start_work": {
+            "autoStartWork": {
               "type": "boolean"
             },
-            "notification_sound": {
-              "type": "string"
+            "workColor": {
+              "type": "string",
+              "maxLength": 255
             },
-            "work_color": {
-              "type": "string"
+            "shortBreakColor": {
+              "type": "string",
+              "maxLength": 255
             },
-            "short_break_color": {
-              "type": "string"
-            },
-            "long_break_color": {
-              "type": "string"
+            "longBreakColor": {
+              "type": "string",
+              "maxLength": 255
             },
             "created": {
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             },
             "updated": {
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
+            "notificationSound": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "originalName": {
+                      "type": "string"
+                    },
+                    "mimeType": {
+                      "type": "string"
+                    },
+                    "size": {
+                      "type": "number"
+                    },
+                    "thumbs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "size": {
+                            "type": "string"
+                          },
+                          "key": {
+                            "type": "string"
+                          },
+                          "width": {
+                            "type": "number"
+                          },
+                          "height": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "size",
+                          "key",
+                          "width",
+                          "height"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "originalName",
+                    "mimeType",
+                    "size",
+                    "thumbs"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           },
           "required": [
-            "auto_start_break",
-            "auto_start_work",
-            "notification_sound",
-            "work_color",
-            "short_break_color",
-            "long_break_color",
+            "id",
+            "autoStartBreak",
+            "autoStartWork",
+            "workColor",
+            "shortBreakColor",
+            "longBreakColor",
             "created",
             "updated",
-            "id",
-            "collectionId",
-            "collectionName"
+            "notificationSound"
           ],
           "additionalProperties": false
         }
@@ -203,21 +313,21 @@ export const contract = {
                       "long_break"
                     ]
                   },
-                  "duration_elapsed": {
+                  "durationElapsed": {
                     "type": "number"
                   },
                   "ended": {
                     "type": "string"
                   },
-                  "is_completed": {
+                  "isCompleted": {
                     "type": "boolean"
                   }
                 },
                 "required": [
                   "type",
-                  "duration_elapsed",
+                  "durationElapsed",
                   "ended",
-                  "is_completed"
+                  "isCompleted"
                 ],
                 "additionalProperties": false
               }
@@ -237,16 +347,19 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
-            "work_duration": {
+            "id": {
+              "type": "string"
+            },
+            "workDuration": {
               "type": "number"
             },
-            "short_break_duration": {
+            "shortBreakDuration": {
               "type": "number"
             },
-            "long_break_duration": {
+            "longBreakDuration": {
               "type": "number"
             },
-            "session_until_long_break": {
+            "sessionUntilLongBreak": {
               "type": "number"
             },
             "name": {
@@ -261,39 +374,30 @@ export const contract = {
               ]
             },
             "created": {
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             },
-            "pomodoro_count": {
+            "pomodoroCount": {
               "type": "number"
             },
-            "total_time_elapsed": {},
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
+            "totalTimeElapsed": {
+              "type": "number"
             }
           },
           "required": [
-            "work_duration",
-            "short_break_duration",
-            "long_break_duration",
-            "session_until_long_break",
+            "id",
+            "workDuration",
+            "shortBreakDuration",
+            "longBreakDuration",
+            "sessionUntilLongBreak",
             "name",
             "status",
             "created",
-            "pomodoro_count",
-            "total_time_elapsed",
-            "id",
-            "collectionId",
-            "collectionName"
+            "pomodoroCount",
+            "totalTimeElapsed"
           ],
           "additionalProperties": false
-        },
-        "NOT_FOUND": true
+        }
       }
     },
     "create": {
@@ -311,22 +415,22 @@ export const contract = {
             "name": {
               "type": "string"
             },
-            "work_duration": {
+            "workDuration": {
               "type": "number",
               "minimum": 1,
               "maximum": 120
             },
-            "short_break_duration": {
+            "shortBreakDuration": {
               "type": "number",
               "minimum": 1,
               "maximum": 60
             },
-            "long_break_duration": {
+            "longBreakDuration": {
               "type": "number",
               "minimum": 1,
               "maximum": 120
             },
-            "session_until_long_break": {
+            "sessionUntilLongBreak": {
               "type": "number",
               "minimum": 1,
               "maximum": 10
@@ -334,10 +438,10 @@ export const contract = {
           },
           "required": [
             "name",
-            "work_duration",
-            "short_break_duration",
-            "long_break_duration",
-            "session_until_long_break"
+            "workDuration",
+            "shortBreakDuration",
+            "longBreakDuration",
+            "sessionUntilLongBreak"
           ],
           "additionalProperties": false
         }
@@ -347,20 +451,34 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
-            "work_duration": {
-              "type": "number"
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
             },
-            "short_break_duration": {
-              "type": "number"
+            "workDuration": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
-            "long_break_duration": {
-              "type": "number"
+            "shortBreakDuration": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
-            "session_until_long_break": {
-              "type": "number"
+            "longBreakDuration": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "sessionUntilLongBreak": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
             "name": {
-              "type": "string"
+              "type": "string",
+              "maxLength": 255
             },
             "status": {
               "type": "string",
@@ -371,37 +489,19 @@ export const contract = {
               ]
             },
             "created": {
-              "type": "string"
-            },
-            "total_time_elapsed": {
-              "type": "number"
-            },
-            "pomodoro_count": {
-              "type": "number"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             }
           },
           "required": [
-            "work_duration",
-            "short_break_duration",
-            "long_break_duration",
-            "session_until_long_break",
+            "id",
+            "workDuration",
+            "shortBreakDuration",
+            "longBreakDuration",
+            "sessionUntilLongBreak",
             "name",
             "status",
-            "created",
-            "total_time_elapsed",
-            "pomodoro_count",
-            "id",
-            "collectionId",
-            "collectionName"
+            "created"
           ],
           "additionalProperties": false
         }
@@ -434,16 +534,19 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
-            "work_duration": {
+            "id": {
+              "type": "string"
+            },
+            "workDuration": {
               "type": "number"
             },
-            "short_break_duration": {
+            "shortBreakDuration": {
               "type": "number"
             },
-            "long_break_duration": {
+            "longBreakDuration": {
               "type": "number"
             },
-            "session_until_long_break": {
+            "sessionUntilLongBreak": {
               "type": "number"
             },
             "name": {
@@ -458,20 +561,14 @@ export const contract = {
               ]
             },
             "created": {
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             },
-            "pomodoro_count": {
+            "pomodoroCount": {
               "type": "number"
             },
-            "total_time_elapsed": {},
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
+            "totalTimeElapsed": {
+              "type": "number"
             },
             "lastSubSessionType": {
               "type": "string",
@@ -483,23 +580,20 @@ export const contract = {
             }
           },
           "required": [
-            "work_duration",
-            "short_break_duration",
-            "long_break_duration",
-            "session_until_long_break",
+            "id",
+            "workDuration",
+            "shortBreakDuration",
+            "longBreakDuration",
+            "sessionUntilLongBreak",
             "name",
             "status",
             "created",
-            "pomodoro_count",
-            "total_time_elapsed",
-            "id",
-            "collectionId",
-            "collectionName",
+            "pomodoroCount",
+            "totalTimeElapsed",
             "lastSubSessionType"
           ],
           "additionalProperties": false
-        },
-        "NOT_FOUND": true
+        }
       }
     },
     "list": {
@@ -517,16 +611,19 @@ export const contract = {
           "items": {
             "type": "object",
             "properties": {
-              "work_duration": {
+              "id": {
+                "type": "string"
+              },
+              "workDuration": {
                 "type": "number"
               },
-              "short_break_duration": {
+              "shortBreakDuration": {
                 "type": "number"
               },
-              "long_break_duration": {
+              "longBreakDuration": {
                 "type": "number"
               },
-              "session_until_long_break": {
+              "sessionUntilLongBreak": {
                 "type": "number"
               },
               "name": {
@@ -541,35 +638,27 @@ export const contract = {
                 ]
               },
               "created": {
-                "type": "string"
+                "type": "string",
+                "format": "date-time"
               },
-              "pomodoro_count": {
+              "pomodoroCount": {
                 "type": "number"
               },
-              "total_time_elapsed": {},
-              "id": {
-                "type": "string"
-              },
-              "collectionId": {
-                "type": "string"
-              },
-              "collectionName": {
-                "type": "string"
+              "totalTimeElapsed": {
+                "type": "number"
               }
             },
             "required": [
-              "work_duration",
-              "short_break_duration",
-              "long_break_duration",
-              "session_until_long_break",
+              "id",
+              "workDuration",
+              "shortBreakDuration",
+              "longBreakDuration",
+              "sessionUntilLongBreak",
               "name",
               "status",
               "created",
-              "pomodoro_count",
-              "total_time_elapsed",
-              "id",
-              "collectionId",
-              "collectionName"
+              "pomodoroCount",
+              "totalTimeElapsed"
             ],
             "additionalProperties": false
           }
@@ -605,6 +694,11 @@ export const contract = {
           "items": {
             "type": "object",
             "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
               "type": {
                 "type": "string",
                 "enum": [
@@ -613,46 +707,54 @@ export const contract = {
                   "long_break"
                 ]
               },
-              "duration_elapsed": {
-                "type": "number"
+              "durationElapsed": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
               },
-              "is_completed": {
+              "isCompleted": {
                 "type": "boolean"
               },
-              "session": {
-                "type": "string"
+              "sessionId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               },
               "ended": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               },
               "created": {
-                "type": "string"
-              },
-              "id": {
-                "type": "string"
-              },
-              "collectionId": {
-                "type": "string"
-              },
-              "collectionName": {
-                "type": "string"
+                "type": "string",
+                "format": "date-time"
               }
             },
             "required": [
-              "type",
-              "duration_elapsed",
-              "is_completed",
-              "session",
-              "ended",
-              "created",
               "id",
-              "collectionId",
-              "collectionName"
+              "type",
+              "durationElapsed",
+              "isCompleted",
+              "sessionId",
+              "ended",
+              "created"
             ],
             "additionalProperties": false
           }
-        },
-        "NOT_FOUND": true
+        }
       }
     },
     "remove": {
@@ -678,8 +780,7 @@ export const contract = {
         }
       },
       "output": {
-        "NO_CONTENT": true,
-        "NOT_FOUND": true
+        "NO_CONTENT": true
       }
     },
     "update": {
@@ -722,20 +823,34 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
-            "work_duration": {
-              "type": "number"
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
             },
-            "short_break_duration": {
-              "type": "number"
+            "workDuration": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
-            "long_break_duration": {
-              "type": "number"
+            "shortBreakDuration": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
-            "session_until_long_break": {
-              "type": "number"
+            "longBreakDuration": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "sessionUntilLongBreak": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
             "name": {
-              "type": "string"
+              "type": "string",
+              "maxLength": 255
             },
             "status": {
               "type": "string",
@@ -746,41 +861,22 @@ export const contract = {
               ]
             },
             "created": {
-              "type": "string"
-            },
-            "total_time_elapsed": {
-              "type": "number"
-            },
-            "pomodoro_count": {
-              "type": "number"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             }
           },
           "required": [
-            "work_duration",
-            "short_break_duration",
-            "long_break_duration",
-            "session_until_long_break",
+            "id",
+            "workDuration",
+            "shortBreakDuration",
+            "longBreakDuration",
+            "sessionUntilLongBreak",
             "name",
             "status",
-            "created",
-            "total_time_elapsed",
-            "pomodoro_count",
-            "id",
-            "collectionId",
-            "collectionName"
+            "created"
           ],
           "additionalProperties": false
-        },
-        "NOT_FOUND": true
+        }
       }
     }
   }

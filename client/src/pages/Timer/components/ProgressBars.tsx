@@ -15,7 +15,7 @@ function ProgressBars() {
   const sessionStyles = useSessionStyles()
 
   const currentPomodoroInCycle = currentSession
-    ? timer.pomodoroCount % currentSession.session.session_until_long_break
+    ? timer.pomodoroCount % currentSession.session.sessionUntilLongBreak
     : 0
 
   if (!currentSession) {
@@ -26,7 +26,7 @@ function ProgressBars() {
     <>
       <Flex align="center" gap="xs" maxWidth="28rem" width="100%">
         {Array.from({
-          length: currentSession.session.session_until_long_break * 2
+          length: currentSession.session.sessionUntilLongBreak * 2
         }).map((_, i) => {
           const isWorkSegment = i % 2 === 0
 
@@ -72,15 +72,15 @@ function ProgressBars() {
           }
 
           const isLongBreak =
-            restIndex === currentSession.session.session_until_long_break - 1
+            restIndex === currentSession.session.sessionUntilLongBreak - 1
 
           const breakType = isLongBreak ? 'long_break' : 'short_break'
 
           const adjustedRestIndex =
             (currentPomodoroInCycle -
               1 +
-              currentSession.session.session_until_long_break) %
-            currentSession.session.session_until_long_break
+              currentSession.session.sessionUntilLongBreak) %
+            currentSession.session.sessionUntilLongBreak
 
           const isRestCompleted =
             timer.subSessionType === 'work'
@@ -124,7 +124,7 @@ function ProgressBars() {
               current:
                 currentPomodoroInCycle +
                 (timer.subSessionType === 'work' ? 1 : 0),
-              total: currentSession.session.session_until_long_break
+              total: currentSession.session.sessionUntilLongBreak
             })
           : t('timer.breakingTime')}
       </Text>

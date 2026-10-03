@@ -31,7 +31,7 @@ function StatsCard({
         width="100%"
       >
         <Text size="4xl" weight="semibold">
-          {session.pomodoro_count}
+          {session.pomodoroCount}
         </Text>
       </Widget>
       <Widget
@@ -45,7 +45,7 @@ function StatsCard({
         variant="large-icon"
         width="100%"
       >
-        <DurationText seconds={session.total_time_elapsed as number} />
+        <DurationText seconds={session.totalTimeElapsed as number} />
       </Widget>
       <Widget
         bg={surface.light}

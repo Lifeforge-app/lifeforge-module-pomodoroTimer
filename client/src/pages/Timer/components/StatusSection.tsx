@@ -14,7 +14,7 @@ function StatusSection() {
   const sessionStyles = useSessionStyles()
 
   const sessionsUntilLongBreak = currentSession
-    ? currentSession.session.session_until_long_break
+    ? currentSession.session.sessionUntilLongBreak
     : 0
 
   const getMessage = () => {

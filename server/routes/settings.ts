@@ -1,58 +1,94 @@
+import { createSelectSchema } from 'drizzle-orm/zod'
 import z from 'zod'
 
+import { fileReferenceSchema } from '@lifeforge/file-storage'
+import type { CoreContext } from '@lifeforge/server-utils'
+
 import forge from '../forge'
-import pomodoroTimerSchemas from '../schema'
+import { pomodoroSettings } from '../schema.drizzle'
 import fetchOrUpdateSettings from '../utils/fetchOrUpdateSettings'
+
+type StorageFile = Parameters<CoreContext['storage']['save']>[0]['file']
+
+const settingsDto = createSelectSchema(pomodoroSettings)
+  .omit({ notificationSound: true })
+  .extend({
+    notificationSound: fileReferenceSchema.nullable()
+  })
+
+const updateBodyDto = z.object({
+  autoStartBreak: z.boolean().optional(),
+  autoStartWork: z.boolean().optional(),
+  workColor: z.string().optional(),
+  shortBreakColor: z.string().optional(),
+  longBreakColor: z.string().optional()
+})
+
+async function serialize<
+  T extends {
+    notificationSound: string | null
+  }
+>(settings: T, core: CoreContext) {
+  return {
+    ...settings,
+    notificationSound: settings.notificationSound
+      ? await core.storage.getReference(settings.notificationSound)
+      : null
+  }
+}
 
 export const get = forge
   .query({
     description: 'Get user pomodoro settings',
     output: {
-      OK: pomodoroTimerSchemas.settings
+      OK: settingsDto
     }
   })
-  .callback(async ({ pb, response }) =>
-    response.ok(await fetchOrUpdateSettings({ pb }))
+  .callback(async ({ db, core, response }) =>
+    response.ok(
+      await serialize(await fetchOrUpdateSettings({ db, core }), core)
+    )
   )
 
 export const update = forge
   .mutation({
     description: 'Update pomodoro settings',
     input: {
-      body: z.object({
-        auto_start_break: z.boolean().optional(),
-        auto_start_work: z.boolean().optional(),
-        work_color: z.string().optional(),
-        short_break_color: z.string().optional(),
-        long_break_color: z.string().optional()
-      })
+      body: updateBodyDto
     },
     media: {
-      notification_sound: {
+      notificationSound: {
         optional: true
       }
     },
     output: {
-      OK: pomodoroTimerSchemas.settings
+      OK: settingsDto
     }
   })
   .callback(
     async ({
       body,
-      pb,
-      media: { notification_sound },
-      core: {
-        media: { retrieveMedia }
-      },
+      media: { notificationSound },
+      db,
+      core,
       response
-    }) =>
-      response.ok(
-        await fetchOrUpdateSettings({
-          pb,
-          overwrite: {
-            ...body,
-            ...(await retrieveMedia('notification_sound', notification_sound))
-          }
-        })
-      )
+    }) => {
+      const current = await fetchOrUpdateSettings({ db, core })
+
+      const notificationSoundRef = await core.storage.save({
+        file: notificationSound as StorageFile,
+        currentKey: current.notificationSound || undefined
+      })
+
+      const updated = await fetchOrUpdateSettings({
+        db,
+        core,
+        overwrite: {
+          ...body,
+          notificationSound: notificationSoundRef?.key ?? null
+        }
+      })
+
+      return response.ok(await serialize(updated, core))
+    }
   )

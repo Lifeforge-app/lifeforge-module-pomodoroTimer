@@ -2,9 +2,9 @@ export type SubSessionType = 'work' | 'short_break' | 'long_break'
 
 export interface LocalSubSession {
   type: SubSessionType
-  duration_elapsed: number
+  durationElapsed: number
   ended: string
-  is_completed: boolean
+  isCompleted: boolean
 }
 
 export interface LocalTimerState {
@@ -52,18 +52,18 @@ export function clearLocalTimerState(): void {
 export function initializeLocalTimerState(
   sessionId: string,
   session: {
-    work_duration: number
-    short_break_duration: number
-    long_break_duration: number
-    pomodoro_count: number
+    workDuration: number
+    shortBreakDuration: number
+    longBreakDuration: number
+    pomodoroCount: number
   }
 ): LocalTimerState {
   return {
     sessionId,
-    timeLeft: session.work_duration * 60,
+    timeLeft: session.workDuration * 60,
     isRunning: false,
     subSessionType: 'work',
-    pomodoroCount: session.pomodoro_count,
+    pomodoroCount: session.pomodoroCount,
     subSessions: [],
     currentSubSessionStarted: new Date().toISOString(),
     sessionKey: 0

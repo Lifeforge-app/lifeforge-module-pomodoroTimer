@@ -18,12 +18,12 @@ import { forgeAPI } from '@/manifest'
 import { type PomodoroSettings } from '@/providers/PomodoroSettingsProvider'
 
 const schema = z.object({
-  work_color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color'),
-  short_break_color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color'),
-  long_break_color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color'),
-  auto_start_break: z.boolean(),
-  auto_start_work: z.boolean(),
-  notification_sound: fileValueSchema
+  workColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color'),
+  shortBreakColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color'),
+  longBreakColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color'),
+  autoStartBreak: z.boolean(),
+  autoStartWork: z.boolean(),
+  notificationSound: fileValueSchema
 })
 
 export default function SettingsModal({
@@ -45,10 +45,10 @@ export default function SettingsModal({
     defaultValues: {
       ...createDefaultValues(schema),
       ...initialData,
-      notification_sound: getFormFileFieldInitialData(
+      notificationSound: getFormFileFieldInitialData(
         forgeAPI,
         initialData,
-        initialData.notification_sound
+        initialData.notificationSound
       )
     },
     resolver: zodResolver(schema)
@@ -62,8 +62,8 @@ export default function SettingsModal({
         handler: async formData => {
           await updateMutation.mutateAsync({
             ...formData,
-            notification_sound: convertFormFileFieldData(
-              formData.notification_sound
+            notificationSound: convertFormFileFieldData(
+              formData.notificationSound
             )
           })
         }
@@ -79,38 +79,38 @@ export default function SettingsModal({
         control={form.control}
         icon="tabler:flame"
         label="workColor"
-        name="work_color"
+        name="workColor"
       />
       <ColorField
         control={form.control}
         icon="tabler:coffee"
         label="shortBreakColor"
-        name="short_break_color"
+        name="shortBreakColor"
       />
       <ColorField
         control={form.control}
         icon="tabler:beach"
         label="longBreakColor"
-        name="long_break_color"
+        name="longBreakColor"
       />
       <CheckboxField
         control={form.control}
         icon="tabler:player-stop"
         label="autoStartBreaks"
-        name="auto_start_break"
+        name="autoStartBreak"
       />
       <CheckboxField
         control={form.control}
         icon="tabler:player-skip-forward"
         label="autoStartWork"
-        name="auto_start_work"
+        name="autoStartWork"
       />
       <FileField
         control={form.control}
         icon="tabler:bell"
         label="notificationSound"
         mimeTypes={{ audio: ['mpeg', 'mp3', 'wav', 'ogg', 'webm'] }}
-        name="notification_sound"
+        name="notificationSound"
       />
     </FormModal>
   )

@@ -48,8 +48,8 @@ function Header() {
         </Text>
         <Text as="p" color="muted" size="sm">
           {t('timer.sessionConfig', {
-            durations: `${currentSession.session.work_duration} / ${currentSession.session.short_break_duration} / ${currentSession.session.long_break_duration}`,
-            perCycle: currentSession.session.session_until_long_break
+            durations: `${currentSession.session.workDuration} / ${currentSession.session.shortBreakDuration} / ${currentSession.session.longBreakDuration}`,
+            perCycle: currentSession.session.sessionUntilLongBreak
           })}
         </Text>
       </Box>

@@ -1,7 +1,70 @@
+import { and, count, desc, eq, sql } from 'drizzle-orm'
+import { createSelectSchema } from 'drizzle-orm/zod'
 import z from 'zod'
 
-import forge from '../forge'
-import pomodoroTimerSchemas from '../schema'
+import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js'
+
+import type { BuiltModuleSchema } from '@lifeforge/drizzle'
+
+import forge, { type PomodoroTimerSchema } from '../forge'
+import { pomodoroSessions, pomodoroSubSessions } from '../schema.drizzle'
+
+const sessionStatusDto = createSelectSchema(pomodoroSessions).shape.status
+const subSessionTypeDto = createSelectSchema(pomodoroSubSessions).shape.type
+
+const sessionDto = createSelectSchema(pomodoroSessions)
+
+const subSessionDto = createSelectSchema(pomodoroSubSessions)
+
+const sessionAggregatedDto = z.object({
+  id: z.string(),
+  workDuration: z.number(),
+  shortBreakDuration: z.number(),
+  longBreakDuration: z.number(),
+  sessionUntilLongBreak: z.number(),
+  name: z.string(),
+  status: sessionStatusDto,
+  created: z.date(),
+  pomodoroCount: z.number(),
+  totalTimeElapsed: z.number()
+})
+
+async function fetchAggregated(
+  db: PostgresJsDatabase<BuiltModuleSchema<PomodoroTimerSchema>>,
+  id?: string
+) {
+  const base = db
+    .select({
+      id: pomodoroSessions.id,
+      workDuration: pomodoroSessions.workDuration,
+      shortBreakDuration: pomodoroSessions.shortBreakDuration,
+      longBreakDuration: pomodoroSessions.longBreakDuration,
+      sessionUntilLongBreak: pomodoroSessions.sessionUntilLongBreak,
+      name: pomodoroSessions.name,
+      status: pomodoroSessions.status,
+      created: pomodoroSessions.created,
+      pomodoroCount: count(pomodoroSubSessions.id),
+      totalTimeElapsed:
+        sql<number>`COALESCE(SUM(${pomodoroSubSessions.durationElapsed}), 0)`.mapWith(
+          Number
+        )
+    })
+    .from(pomodoroSessions)
+    .leftJoin(
+      pomodoroSubSessions,
+      and(
+        eq(pomodoroSubSessions.sessionId, pomodoroSessions.id),
+        eq(pomodoroSubSessions.type, 'work'),
+        eq(pomodoroSubSessions.isCompleted, true)
+      )
+    )
+
+  const rows = await (id ? base.where(eq(pomodoroSessions.id, id)) : base)
+    .groupBy(pomodoroSessions.id)
+    .orderBy(desc(pomodoroSessions.created))
+
+  return rows
+}
 
 export const getById = forge
   .query({
@@ -11,27 +74,27 @@ export const getById = forge
         id: z.string()
       })
     },
-    existenceCheck: {
-      query: { id: 'sessions' }
-    },
     output: {
-      OK: pomodoroTimerSchemas.sessions_aggregated.extend({
-        lastSubSessionType: z.enum(['work', 'short_break', 'long_break'])
+      OK: sessionAggregatedDto.extend({
+        lastSubSessionType: subSessionTypeDto
       }),
-      NOT_FOUND: true
     }
   })
-  .callback(async ({ query: { id }, pb, response }) => {
-    const lastSubSession = await pb.getFirstListItem
-      .collection('sub_sessions')
-      .filter([{ field: 'session', operator: '=', value: id }])
-      .sort(['-created'])
-      .execute()
-      .catch(() => null)
+  .callback(async ({ query: { id }, db, response }) => {
+    const [session] = await fetchAggregated(db, id)
+
+    if (!session) {
+      return response.notFound()
+    }
+
+    const lastSubSession = await db.query.subSessions.findFirst({
+      where: { sessionId: id },
+      orderBy: { created: 'desc' }
+    })
 
     return response.ok({
-      lastSubSessionType: lastSubSession?.type || 'short_break',
-      ...(await pb.getOne.collection('sessions_aggregated').id(id).execute())
+      ...session,
+      lastSubSessionType: lastSubSession?.type ?? 'short_break'
     })
   })
 
@@ -39,17 +102,10 @@ export const list = forge
   .query({
     description: 'List all pomodoro sessions',
     output: {
-      OK: z.array(pomodoroTimerSchemas.sessions_aggregated)
+      OK: z.array(sessionAggregatedDto)
     }
   })
-  .callback(async ({ pb, response }) =>
-    response.ok(
-      await pb.getFullList
-        .collection('sessions_aggregated')
-        .sort(['-created'])
-        .execute()
-    )
-  )
+  .callback(async ({ db, response }) => response.ok(await fetchAggregated(db)))
 
 export const create = forge
   .mutation({
@@ -57,42 +113,27 @@ export const create = forge
     input: {
       body: z.object({
         name: z.string(),
-        work_duration: z.number().min(1).max(120),
-        short_break_duration: z.number().min(1).max(60),
-        long_break_duration: z.number().min(1).max(120),
-        session_until_long_break: z.number().min(1).max(10)
+        workDuration: z.number().min(1).max(120),
+        shortBreakDuration: z.number().min(1).max(60),
+        longBreakDuration: z.number().min(1).max(120),
+        sessionUntilLongBreak: z.number().min(1).max(10)
       })
     },
     output: {
-      CREATED: pomodoroTimerSchemas.sessions
+      CREATED: sessionDto
     }
   })
-  .callback(
-    async ({
-      body: {
-        name,
-        work_duration,
-        short_break_duration,
-        long_break_duration,
-        session_until_long_break
-      },
-      pb,
-      response
-    }) =>
-      response.created(
-        await pb.create
-          .collection('sessions')
-          .data({
-            name,
-            work_duration,
-            short_break_duration,
-            long_break_duration,
-            session_until_long_break,
-            status: 'new'
-          })
-          .execute()
-      )
-  )
+  .callback(async ({ db, body, response }) => {
+    const [created] = await db
+      .insert(pomodoroSessions)
+      .values({
+        ...body,
+        status: 'new'
+      })
+      .returning()
+
+    return response.created(created)
+  })
 
 export const update = forge
   .mutation({
@@ -105,25 +146,23 @@ export const update = forge
         name: z.string()
       })
     },
-    existenceCheck: {
-      query: { id: 'sessions' }
-    },
     output: {
-      OK: pomodoroTimerSchemas.sessions,
-      NOT_FOUND: true
+      OK: sessionDto,
     }
   })
-  .callback(async ({ query: { id }, body, pb, response }) =>
-    response.ok(
-      await pb.update
-        .collection('sessions')
-        .id(id)
-        .data({
-          name: body.name
-        })
-        .execute()
-    )
-  )
+  .callback(async ({ query: { id }, body, db, response }) => {
+    const [updated] = await db
+      .update(pomodoroSessions)
+      .set({ name: body.name })
+      .where(eq(pomodoroSessions.id, id))
+      .returning()
+
+    if (!updated) {
+      return response.notFound()
+    }
+
+    return response.ok(updated)
+  })
 
 export const changeStatus = forge
   .mutation({
@@ -133,70 +172,54 @@ export const changeStatus = forge
         id: z.string()
       }),
       body: z.object({
-        status: z.enum(['new', 'active', 'completed']),
+        status: sessionStatusDto,
         subSessions: z
           .array(
             z.object({
-              type: z.enum(['work', 'short_break', 'long_break']),
-              duration_elapsed: z.number(),
+              type: subSessionTypeDto,
+              durationElapsed: z.number(),
               ended: z.string(),
-              is_completed: z.boolean()
+              isCompleted: z.boolean()
             })
           )
           .optional(),
         pomodoroCount: z.number().optional()
       })
     },
-    existenceCheck: {
-      query: { id: 'sessions' }
-    },
     output: {
-      OK: pomodoroTimerSchemas.sessions_aggregated,
-      NOT_FOUND: true
+      OK: sessionAggregatedDto,
     }
   })
   .callback(
-    async ({
-      query: { id },
-      body: { status, subSessions, pomodoroCount },
-      pb,
-      response
-    }) => {
-      if (status === 'completed' && subSessions && subSessions.length > 0) {
-        for (const subSession of subSessions) {
-          await pb.create
-            .collection('sub_sessions')
-            .data({
-              session: id,
-              type: subSession.type,
-              duration_elapsed: subSession.duration_elapsed,
-              ended: subSession.ended,
-              is_completed: subSession.is_completed
-            })
-            .execute()
-        }
+    async ({ query: { id }, body: { status, subSessions }, db, response }) => {
+      const session = await db.query.sessions.findFirst({
+        where: { id }
+      })
 
-        const totalTimeElapsed = subSessions.reduce(
-          (sum, s) => sum + s.duration_elapsed,
-          0
-        )
-
-        await pb.update
-          .collection('sessions')
-          .id(id)
-          .data({
-            status,
-            total_time_elapsed: totalTimeElapsed,
-            pomodoro_count: pomodoroCount ?? 0
-          })
-          .execute()
-      } else {
-        await pb.update.collection('sessions').id(id).data({ status }).execute()
+      if (!session) {
+        return response.notFound()
       }
 
-      return response.ok(
-        await pb.getOne.collection('sessions_aggregated').id(id).execute()
-      )
+      if (status === 'completed' && subSessions && subSessions.length > 0) {
+        await db.insert(pomodoroSubSessions).values(
+          subSessions.map(subSession => ({
+            sessionId: id,
+            type: subSession.type,
+            durationElapsed: subSession.durationElapsed,
+            ended: new Date(subSession.ended),
+            isCompleted: subSession.isCompleted
+          }))
+        )
+      }
+
+      await db
+        .update(pomodoroSessions)
+        .set({ status })
+        .where(eq(pomodoroSessions.id, id))
+
+      const [aggregated] = await fetchAggregated(db, id)
+
+      return response.ok(aggregated)
     }
   )
 
@@ -208,16 +231,19 @@ export const remove = forge
         id: z.string()
       })
     },
-    existenceCheck: {
-      query: { id: 'sessions' }
-    },
     output: {
       NO_CONTENT: true,
-      NOT_FOUND: true
     }
   })
-  .callback(async ({ query: { id }, pb, response }) => {
-    await pb.delete.collection('sessions').id(id).execute()
+  .callback(async ({ query: { id }, db, response }) => {
+    const [deleted] = await db
+      .delete(pomodoroSessions)
+      .where(eq(pomodoroSessions.id, id))
+      .returning()
+
+    if (!deleted) {
+      return response.notFound()
+    }
 
     return response.noContent()
   })
@@ -230,20 +256,23 @@ export const listSubSessions = forge
         sessionId: z.string()
       })
     },
-    existenceCheck: {
-      query: { sessionId: 'sessions' }
-    },
     output: {
-      OK: z.array(pomodoroTimerSchemas.sub_sessions),
-      NOT_FOUND: true
+      OK: z.array(subSessionDto),
     }
   })
-  .callback(async ({ query: { sessionId }, pb, response }) =>
-    response.ok(
-      await pb.getFullList
-        .collection('sub_sessions')
-        .filter([{ field: 'session', operator: '=', value: sessionId }])
-        .sort(['created'])
-        .execute()
-    )
-  )
+  .callback(async ({ query: { sessionId }, db, response }) => {
+    const session = await db.query.sessions.findFirst({
+      where: { id: sessionId }
+    })
+
+    if (!session) {
+      return response.notFound()
+    }
+
+    const subSessions = await db.query.subSessions.findMany({
+      where: { sessionId },
+      orderBy: { created: 'asc' }
+    })
+
+    return response.ok(subSessions)
+  })

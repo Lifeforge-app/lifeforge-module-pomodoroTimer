@@ -17,10 +17,10 @@ import { forgeAPI } from '@/manifest'
 
 const schema = z.object({
   name: z.string().min(1, 'Required'),
-  work_duration: z.number().min(1).max(120),
-  short_break_duration: z.number().min(1).max(60),
-  long_break_duration: z.number().min(1).max(120),
-  session_until_long_break: z.number().min(1).max(10)
+  workDuration: z.number().min(1).max(120),
+  shortBreakDuration: z.number().min(1).max(60),
+  longBreakDuration: z.number().min(1).max(120),
+  sessionUntilLongBreak: z.number().min(1).max(10)
 })
 
 function ModifySessionModal({
@@ -51,10 +51,10 @@ function ModifySessionModal({
       ...createDefaultValues(schema),
       ...(initialData ?? {
         name: `Productive Session on ${dayjs().format('MMM D')}`,
-        work_duration: DEFAULT_OPTIONS.work,
-        short_break_duration: DEFAULT_OPTIONS.short_break,
-        long_break_duration: DEFAULT_OPTIONS.long_break,
-        session_until_long_break: DEFAULT_OPTIONS.session_until_long_break
+        workDuration: DEFAULT_OPTIONS.work,
+        shortBreakDuration: DEFAULT_OPTIONS.short_break,
+        longBreakDuration: DEFAULT_OPTIONS.long_break,
+        sessionUntilLongBreak: DEFAULT_OPTIONS.sessionUntilLongBreak
       })
     },
     resolver: zodResolver(schema)
@@ -96,7 +96,7 @@ function ModifySessionModal({
             label="Work Duration"
             max={120}
             min={1}
-            name="work_duration"
+            name="workDuration"
           />
           <SliderField
             required
@@ -105,7 +105,7 @@ function ModifySessionModal({
             label="Short Break Duration"
             max={60}
             min={1}
-            name="short_break_duration"
+            name="shortBreakDuration"
           />
           <SliderField
             required
@@ -114,7 +114,7 @@ function ModifySessionModal({
             label="Long Break Duration"
             max={120}
             min={1}
-            name="long_break_duration"
+            name="longBreakDuration"
           />
           <SliderField
             required
@@ -123,7 +123,7 @@ function ModifySessionModal({
             label="Sessions Until Long Break"
             max={10}
             min={1}
-            name="session_until_long_break"
+            name="sessionUntilLongBreak"
           />
         </>
       )}

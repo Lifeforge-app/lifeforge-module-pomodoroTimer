@@ -150,9 +150,9 @@ function PomodoroProvider({ children }: { children: React.ReactNode }) {
       currentSession.session[
         (
           {
-            work: 'work_duration',
-            short_break: 'short_break_duration',
-            long_break: 'long_break_duration'
+            work: 'workDuration',
+            short_break: 'shortBreakDuration',
+            long_break: 'longBreakDuration'
           } as const
         )[state.subSessionType]
       ] * 60
@@ -174,9 +174,9 @@ function PomodoroProvider({ children }: { children: React.ReactNode }) {
         currentSession.session[
           (
             {
-              work: 'work_duration',
-              short_break: 'short_break_duration',
-              long_break: 'long_break_duration'
+              work: 'workDuration',
+              short_break: 'shortBreakDuration',
+              long_break: 'longBreakDuration'
             } as const
           )[currentState.subSessionType]
         ] * 60
@@ -188,9 +188,9 @@ function PomodoroProvider({ children }: { children: React.ReactNode }) {
       // Record completed subsession locally
       const completedSubSession: LocalSubSession = {
         type: currentState.subSessionType,
-        duration_elapsed: durationElapsed,
+        durationElapsed: durationElapsed,
         ended: new Date().toISOString(),
-        is_completed: isFinished
+        isCompleted: isFinished
       }
 
       // Determine next subsession type
@@ -201,7 +201,7 @@ function PomodoroProvider({ children }: { children: React.ReactNode }) {
         newPomodoros += 1
 
         if (
-          newPomodoros % currentSession.session.session_until_long_break ===
+          newPomodoros % currentSession.session.sessionUntilLongBreak ===
           0
         ) {
           newType = 'long_break'
@@ -216,9 +216,9 @@ function PomodoroProvider({ children }: { children: React.ReactNode }) {
         currentSession.session[
           (
             {
-              work: 'work_duration',
-              short_break: 'short_break_duration',
-              long_break: 'long_break_duration'
+              work: 'workDuration',
+              short_break: 'shortBreakDuration',
+              long_break: 'longBreakDuration'
             } as const
           )[newType]
         ] * 60
@@ -251,7 +251,7 @@ function PomodoroProvider({ children }: { children: React.ReactNode }) {
     }
 
     setState(prev => ({ ...prev, isRunning: false }))
-    nextSubSession(stateRef.current, settings.auto_start_work ?? false, false)
+    nextSubSession(stateRef.current, settings.autoStartWork ?? false, false)
   }, [
     state.isRunning,
     state.timeLeft,
@@ -269,9 +269,9 @@ function PomodoroProvider({ children }: { children: React.ReactNode }) {
       currentSession.session[
         (
           {
-            work: 'work_duration',
-            short_break: 'short_break_duration',
-            long_break: 'long_break_duration'
+            work: 'workDuration',
+            short_break: 'shortBreakDuration',
+            long_break: 'longBreakDuration'
           } as const
         )[stateRef.current.subSessionType]
       ] * 60
@@ -283,9 +283,9 @@ function PomodoroProvider({ children }: { children: React.ReactNode }) {
       ...stateRef.current.subSessions,
       {
         type: stateRef.current.subSessionType,
-        duration_elapsed: currentElapsed,
+        durationElapsed: currentElapsed,
         ended: new Date().toISOString(),
-        is_completed: false
+        isCompleted: false
       }
     ]
 
@@ -310,20 +310,20 @@ function PomodoroProvider({ children }: { children: React.ReactNode }) {
       intervalRef.current = window.setInterval(async () => {
         if (stateRef.current.timeLeft === 0) {
           // Play notification sound
-          const audio = new Audio(
-            forgeAPI.getMedia({
-              collectionId: settingsRef.current.collectionId,
-              recordId: settingsRef.current.id,
-              fieldId: settingsRef.current.notification_sound
-            })
-          )
+          if (settingsRef.current.notificationSound) {
+            const audio = new Audio(
+              forgeAPI.getMedia({
+                key: settingsRef.current.notificationSound.key
+              })
+            )
 
-          await audio.play().catch(() => {})
+            await audio.play().catch(() => {})
+          }
 
           const shouldAutoStart =
             stateRef.current.subSessionType === 'work'
-              ? settingsRef.current.auto_start_break
-              : settingsRef.current.auto_start_work
+              ? settingsRef.current.autoStartBreak
+              : settingsRef.current.autoStartWork
 
           nextSubSession(stateRef.current, shouldAutoStart ?? false, true)
 
